@@ -1,9 +1,9 @@
 package common
 
 type AppResponse struct {
-	Data   interface{}
-	Filter interface{}
-	Paging interface{}
+	Data   interface{} `json:"data"`
+	Filter interface{} `json:"filter,omitempty"`
+	Paging interface{} `json:"paging,omitempty"`
 }
 
 func FullSuccessResponse(data, filter, paging interface{}) *AppResponse {

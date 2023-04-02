@@ -92,7 +92,7 @@ func ErrCannotCRUDEntity(entity string, crud string, err error) *AppError {
 		err,
 		fmt.Sprintf("cannot %s %s", strings.ToLower(crud), strings.ToLower(entity)),
 		fmt.Sprintf(
-			"ErrCannot%s%s",
+			"ErrCann%s%s",
 			strings.ToTitle(strings.ToLower(crud)),
 			strings.ToTitle(strings.ToLower(entity)),
 		),
