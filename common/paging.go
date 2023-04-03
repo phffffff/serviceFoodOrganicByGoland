@@ -20,3 +20,7 @@ func (p *Paging) FullFill() {
 	}
 	p.FakeCursor = strings.TrimSpace(p.FakeCursor)
 }
+
+func (p *Paging) Mark(isAdminOrOwner bool) {
+
+}

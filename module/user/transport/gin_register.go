@@ -28,7 +28,9 @@ func GinRegister(appCtx appContext.AppContext) gin.HandlerFunc {
 			panic(err)
 		}
 
-		c.IndentedJSON(http.StatusOK, common.SimpleSuccessResponse(data.Id))
+		data.Mark(false)
+
+		c.IndentedJSON(http.StatusOK, common.SimpleSuccessResponse(data.FakeId.String()))
 
 	}
 }

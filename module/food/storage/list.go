@@ -4,7 +4,6 @@ import (
 	"context"
 	"go_service_food_organic/common"
 	foodModel "go_service_food_organic/module/food/model"
-	"strconv"
 )
 
 func (sql *sqlModel) ListDataWithCondition(c context.Context, filter *foodModel.Filter, paging *common.Paging, moreKeys ...string) ([]foodModel.Food, error) {
@@ -27,7 +26,13 @@ func (sql *sqlModel) ListDataWithCondition(c context.Context, filter *foodModel.
 	}
 
 	if cursor := paging.FakeCursor; cursor != "" {
-		id, err := strconv.Atoi(cursor)
+		//id, err := strconv.Atoi(cursor)
+		uid, err := common.FromBase58(cursor)
+		if err != nil {
+			return nil, common.ErrInternal(err)
+		}
+		id := int(uid.GetLocalID())
+
 		if err != nil {
 			return nil, common.ErrInternal(err)
 		}
@@ -42,7 +47,8 @@ func (sql *sqlModel) ListDataWithCondition(c context.Context, filter *foodModel.
 	}
 	if len(list) > 0 {
 		lastData := list[len(list)-1]
-		paging.NextCursor = strconv.Itoa(lastData.Id)
+		lastData.Mark(false)
+		paging.NextCursor = lastData.FakeId.String()
 	}
 
 	return list, nil

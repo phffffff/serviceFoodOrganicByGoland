@@ -2,6 +2,7 @@ package foodBusiness
 
 import (
 	"context"
+	"go_service_food_organic/common"
 	foodModel "go_service_food_organic/module/food/model"
 )
 
@@ -19,7 +20,7 @@ func NewCreateFoodBiz(store CreateFoodStore) *createFoodBiz {
 
 func (biz *createFoodBiz) CreateFood(c context.Context, data *foodModel.FoodCreate) error {
 	if err := biz.store.Create(c, data); err != nil {
-		return err
+		return common.ErrInternal(err)
 	}
 	return nil
 }

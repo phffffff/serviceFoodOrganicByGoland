@@ -31,5 +31,6 @@ func (biz *listFoodBiz) ListFoodWithFilter(
 	if err != nil {
 		return nil, err
 	}
+
 	return list, nil
 }

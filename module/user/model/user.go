@@ -28,6 +28,10 @@ type UserRegister struct {
 	GgId            string `json:"gg_id" gorm:"column:gg_id;"`
 }
 
+func (u *UserRegister) Mark(isAdminOrOwner bool) {
+	u.GetUID(common.OjbTypeUser)
+}
+
 func (UserRegister) GetTableName() string { return User{}.GetTableName() }
 
 type UserLogin struct {

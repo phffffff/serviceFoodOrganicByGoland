@@ -19,32 +19,25 @@ func GinListFood(appctx appContext.AppContext) gin.HandlerFunc {
 
 		var filter foodModel.Filter
 		if err := c.ShouldBind(&filter); err != nil {
-			c.IndentedJSON(http.StatusBadRequest, gin.H{
-				"error": err.Error(),
-			})
-			return
+			panic(err)
 		}
 
 		var paging common.Paging
 		if err := c.ShouldBind(&paging); err != nil {
-			c.IndentedJSON(http.StatusBadRequest, gin.H{
-				"error": err.Error(),
-			})
-			return
+			panic(err)
 		}
 
 		paging.FullFill()
 
 		list, err := biz.ListFoodWithFilter(c.Request.Context(), &filter, &paging)
 		if err != nil {
-			c.IndentedJSON(http.StatusBadRequest, gin.H{
-				"error": err.Error(),
-			})
-			return
+			panic(err)
 		}
-		c.IndentedJSON(http.StatusOK, gin.H{
-			"data": list,
-		})
+		for i := range list {
+			list[i].Mark(false)
+		}
+
+		c.IndentedJSON(http.StatusOK, common.FullSuccessResponse(list, filter, paging))
 
 	}
 }

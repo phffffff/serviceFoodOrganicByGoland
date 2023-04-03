@@ -18,12 +18,20 @@ type Food struct {
 
 func (Food) GetTableName() string { return "foods" }
 
+func (f *Food) Mark(isAdminOrOwner bool) {
+	f.GetUID(common.OjbTypeFood)
+}
+
 type FoodCreate struct {
 	common.SQLModel `json:",inline"`
 	Name            string  `json:"name" gorm:"column:name;" `
 	Description     string  `json:"description" gorm:"description;"`
 	Price           float32 `json:"price" gorm:"column:price;"`
 	Count           int64   `json:"count" gorm:"column:count;"'`
+}
+
+func (f *FoodCreate) Mark(isAdminOrOwner bool) {
+	f.GetUID(common.OjbTypeFood)
 }
 
 func (data *FoodCreate) Validate() {

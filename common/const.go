@@ -15,4 +15,7 @@ const (
 
 	MsgInvalidReq        = "invalid request"
 	ErrInvalidRequestKey = "ErrInvalidRequest"
+
+	OjbTypeUser = 1
+	OjbTypeFood = 2
 )
