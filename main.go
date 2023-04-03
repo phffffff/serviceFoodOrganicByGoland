@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"go_service_food_organic/common"
 	appContext "go_service_food_organic/component/app_context"
 	"go_service_food_organic/middleware"
 	foodTransport "go_service_food_organic/module/food/transport"
@@ -30,9 +31,16 @@ func main() {
 	rt.Use(middleware.Recover(appCtx))
 
 	{
-		food := rt.Group("food")
-		food.GET("/listfood", foodTransport.GinListFood(appCtx))
-		food.POST("/createfood", foodTransport.GinCreateFood(appCtx))
+		admin := rt.Group(
+			"/admin",
+			middleware.RequiredAuth(appCtx),
+			middleware.RoleRequired(appCtx, common.Admin),
+		)
+		{
+			food := admin.Group("food")
+			food.GET("/listfood", foodTransport.GinListFood(appCtx))
+			food.POST("/createfood", foodTransport.GinCreateFood(appCtx))
+		}
 	}
 	{
 		user := rt.Group("user")

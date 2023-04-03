@@ -1,6 +1,10 @@
 package common
 
 const (
+	Admin = "admin"
+
+	CurrentUser = "user"
+
 	Get    = "GET"
 	List   = "LIST"
 	Create = "CREATE"
@@ -16,6 +20,13 @@ const (
 	MsgInvalidReq        = "invalid request"
 	ErrInvalidRequestKey = "ErrInvalidRequest"
 
-	OjbTypeUser = 1
-	OjbTypeFood = 2
+	OjbTypeUser    = 1
+	OjbTypeFood    = 2
+	OjbTypeProfile = 3
 )
+
+type Requester interface {
+	GetUserId() int
+	GetEmail() string
+	GetRole() string
+}

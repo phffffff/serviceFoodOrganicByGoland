@@ -18,6 +18,14 @@ type User struct {
 
 func (User) GetTableName() string { return "users" }
 
+func (u *User) Mark(isAdminOrOwner bool) {
+	u.GetUID(common.OjbTypeUser)
+}
+
+func (u *User) GetUserId() int   { return u.Id }
+func (u *User) GetEmail() string { return u.Email }
+func (u *User) GetRole() string  { return u.Role }
+
 type UserRegister struct {
 	common.SQLModel `json:",inline"`
 	Email           string `json:"email" gorm:"column:email;"`
