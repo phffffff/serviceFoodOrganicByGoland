@@ -7,7 +7,7 @@ import (
 )
 
 type CreateProfileStore interface {
-	Create(c context.Context, data *profileModel.Profile) error
+	Create(c context.Context, data *profileModel.ProfileRegister) error
 }
 
 type createProfileBiz struct {
@@ -18,7 +18,7 @@ func NewCreateProfileBiz(store CreateProfileStore) *createProfileBiz {
 	return &createProfileBiz{store: store}
 }
 
-func (biz *createProfileBiz) CreateProfile(c context.Context, data *profileModel.Profile) error {
+func (biz *createProfileBiz) CreateProfile(c context.Context, data *profileModel.ProfileRegister) error {
 	if err := biz.store.Create(c, data); err != nil {
 		return common.ErrInternal(err)
 	}

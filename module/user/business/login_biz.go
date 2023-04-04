@@ -5,6 +5,7 @@ import (
 	"go_service_food_organic/common"
 	tokenProvider "go_service_food_organic/component/token"
 	userModel "go_service_food_organic/module/user/model"
+	userRepo "go_service_food_organic/module/user/repository"
 )
 
 type LoginStore interface {
@@ -16,14 +17,14 @@ type LoginStore interface {
 
 type loginBiz struct {
 	store         LoginStore
-	hasher        Hasher
+	hasher        userRepo.Hasher
 	tokenProvider tokenProvider.Provider
 	expiry        int
 }
 
 func NewLoginBiz(
 	store LoginStore,
-	hasher Hasher,
+	hasher userRepo.Hasher,
 	tokenProvider tokenProvider.Provider,
 	expiry int,
 ) *loginBiz {

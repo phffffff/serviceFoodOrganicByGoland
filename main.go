@@ -44,7 +44,9 @@ func main() {
 	}
 	{
 		user := rt.Group("user")
-		user.POST("/register", userTransport.GinRegister(appCtx))
+		user.POST("/register",
+			userTransport.GinRegister(appCtx),
+		)
 		user.POST("/authenticate", userTransport.GinLogin(appCtx))
 	}
 
