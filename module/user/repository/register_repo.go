@@ -3,7 +3,6 @@ package userRepo
 import (
 	"context"
 	"go_service_food_organic/common"
-	profileBusiness "go_service_food_organic/module/profile/business"
 	profileModel "go_service_food_organic/module/profile/model"
 	userModel "go_service_food_organic/module/user/model"
 )
@@ -13,6 +12,10 @@ type RegisterStore interface {
 	FindDataWithCondition(c context.Context, cond map[string]interface{}, moreKeys ...string) (*userModel.User, error)
 }
 
+type CreateProfileStore interface {
+	Create(c context.Context, data *profileModel.ProfileRegister) error
+}
+
 type Hasher interface {
 	Hash(data string) string
 }
@@ -20,13 +23,13 @@ type Hasher interface {
 type registerRepo struct {
 	storeUser    RegisterStore
 	hasher       Hasher
-	storeProfile profileBusiness.CreateProfileStore
+	storeProfile CreateProfileStore
 }
 
 func NewRegisterRepo(
 	storeUser RegisterStore,
 	hasher Hasher,
-	storeProfile profileBusiness.CreateProfileStore) *registerRepo {
+	storeProfile CreateProfileStore) *registerRepo {
 	return &registerRepo{
 		storeUser:    storeUser,
 		hasher:       hasher,

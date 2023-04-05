@@ -6,6 +6,7 @@ import (
 	appContext "go_service_food_organic/component/app_context"
 	"go_service_food_organic/middleware"
 	foodTransport "go_service_food_organic/module/food/transport"
+	profileTransport "go_service_food_organic/module/profile/transport"
 	userTransport "go_service_food_organic/module/user/transport"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -48,6 +49,10 @@ func main() {
 			userTransport.GinRegister(appCtx),
 		)
 		user.POST("/authenticate", userTransport.GinLogin(appCtx))
+	}
+	{
+		profile := rt.Group("profile")
+		profile.PUT("update/:id", profileTransport.GinUpdateProfile(appCtx))
 	}
 
 	rt.Run()
