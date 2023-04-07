@@ -45,13 +45,15 @@ func main() {
 	}
 	{
 		user := rt.Group("user")
-		user.POST("/register",
-			userTransport.GinRegister(appCtx),
-		)
+		user.POST("/register", userTransport.GinRegister(appCtx))
 		user.POST("/authenticate", userTransport.GinLogin(appCtx))
 	}
 	{
-		profile := rt.Group("profile")
+		profile := rt.Group("profile",
+			middleware.RequiredAuth(appCtx),
+		)
+
+		profile.GET("/list", middleware.RoleRequired(appCtx, common.Admin), profileTransport.GinListProfile(appCtx))
 		profile.PUT("update/:id", profileTransport.GinUpdateProfile(appCtx))
 	}
 

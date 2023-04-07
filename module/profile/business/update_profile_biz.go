@@ -7,7 +7,7 @@ import (
 )
 
 type UpdateProfileRepo interface {
-	UpdateProfileRepo(c context.Context, id int, data *profileModel.Profile) error
+	UpdateProfileRepo(c context.Context, id int, data *profileModel.ProfileUpdate) error
 }
 
 type updateProfileBiz struct {
@@ -18,7 +18,7 @@ func NewUpdateProfileBiz(repo UpdateProfileRepo) *updateProfileBiz {
 	return &updateProfileBiz{repo: repo}
 }
 
-func (biz *updateProfileBiz) UpdateProfile(c context.Context, id int, data *profileModel.Profile) error {
+func (biz *updateProfileBiz) UpdateProfile(c context.Context, id int, data *profileModel.ProfileUpdate) error {
 	if err := biz.repo.UpdateProfileRepo(c, id, data); err != nil {
 		return common.ErrInternal(err)
 	}

@@ -1,50 +1,53 @@
-package foodStorage
+package profileStorage
 
 import (
 	"context"
 	"go_service_food_organic/common"
-	foodModel "go_service_food_organic/module/food/model"
+	profileModel "go_service_food_organic/module/profile/model"
 )
 
-func (sql *sqlModel) ListDataWithCondition(c context.Context, filter *foodModel.Filter, paging *common.Paging, moreKeys ...string) ([]foodModel.Food, error) {
-	var list []foodModel.Food
-	db := sql.db.Table(foodModel.Food{}.GetTableName())
+func (sqlModel *sqlModel) ListDataWithFilter(
+	c context.Context,
+	filter *profileModel.Filter,
+	paging *common.Paging,
+	moreKeys ...string) ([]profileModel.Profile, error) {
+
+	db := sqlModel.db.Table(profileModel.Profile{}.GetTableName())
+
 	if err := db.Error; err != nil {
 		return nil, common.ErrDB(err)
 	}
-	//Cần khai báo những food cho phép hiện
+
 	if filter.Status >= 0 {
-		db = db.Where("status in (?)", filter.Status)
+		db = db.Where("status = (?)", filter.Status)
 	}
 
 	if err := db.Count(&paging.Total).Error; err != nil {
 		return nil, common.ErrDB(err)
 	}
 
-	for _, item := range moreKeys {
-		db = db.Preload(item)
-	}
-
 	if cursor := paging.FakeCursor; cursor != "" {
-		//id, err := strconv.Atoi(cursor)
-		uid, err := common.FromBase58(cursor)
-		if err != nil {
-			return nil, common.ErrInternal(err)
-		}
-		id := int(uid.GetLocalID())
 
+		uid, err := common.FromBase58(cursor)
+
+		id := int(uid.GetLocalID())
 		if err != nil {
 			return nil, common.ErrInternal(err)
 		}
-		db = db.Where("id < (?)", id)
+
+		if err := db.Where("id < (?)", id).Error; err != nil {
+			return nil, common.ErrInternal(err)
+		}
 	} else {
 		offset := (paging.Page - 1) * paging.Limit
 		db = db.Offset(offset)
-
 	}
+	var list []profileModel.Profile
+
 	if err := db.Limit(paging.Limit).Order("id DESC").Find(&list).Error; err != nil {
 		return nil, common.ErrDB(err)
 	}
+
 	if len(list) > 0 {
 		lastData := list[len(list)-1]
 		lastData.Mark(false)

@@ -22,9 +22,10 @@ func (p *ProfileRegister) Mark(isAdminOrOwner bool) {
 type Profile struct {
 	common.SQLModel
 	Email     string `json:"email" gorm:"column:email;"`
-	Phone     string `json:"salt" gorm:"column:phone;"`
+	Phone     string `json:"phone" gorm:"column:phone;"`
 	LastName  string `json:"last_name" gorm:"column:last_name;"`
 	FirstName string `json:"first_name" gorm:"column:first_name;"`
+	UserId    int    `json:"-" gorm:"column:user_id"`
 	//Avatar
 }
 
@@ -33,3 +34,13 @@ func (Profile) GetTableName() string { return ProfileRegister{}.GetTableName() }
 func (p *Profile) Mark(isAdminOrOwner bool) {
 	p.GetUID(common.OjbTypeProfile)
 }
+
+type ProfileUpdate struct {
+	Email     string `json:"email" gorm:"column:email;"`
+	Phone     string `json:"phone" gorm:"column:phone;"`
+	LastName  string `json:"last_name" gorm:"column:last_name;"`
+	FirstName string `json:"first_name" gorm:"column:first_name;"`
+	//Avatar
+}
+
+func (ProfileUpdate) GetTableName() string { return ProfileUpdate{}.GetTableName() }

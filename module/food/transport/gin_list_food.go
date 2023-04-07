@@ -22,6 +22,8 @@ func GinListFood(appctx appContext.AppContext) gin.HandlerFunc {
 			panic(err)
 		}
 
+		filter.Status = 1
+
 		var paging common.Paging
 		if err := c.ShouldBind(&paging); err != nil {
 			panic(err)

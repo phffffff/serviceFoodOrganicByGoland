@@ -9,17 +9,20 @@ import (
 	profileRepo "go_service_food_organic/module/profile/repository"
 	profileStorage "go_service_food_organic/module/profile/storage"
 	"net/http"
-	"strconv"
 )
 
 func GinUpdateProfile(appCtx appContext.AppContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		id, err := strconv.Atoi(c.Param("id"))
+
+		req := c.MustGet(common.CurrentUser).(common.Requester)
+
+		uid, err := common.FromBase58(c.Param("id"))
 		if err != nil {
 			panic(err)
 		}
+		id := int(uid.GetLocalID())
 
-		var data profileModel.Profile
+		var data profileModel.ProfileUpdate
 
 		if err := c.ShouldBind(&data); err != nil {
 			panic(err)
@@ -27,14 +30,12 @@ func GinUpdateProfile(appCtx appContext.AppContext) gin.HandlerFunc {
 
 		db := appCtx.GetMyDBConnection()
 		store := profileStorage.NewSqlModel(db)
-		repo := profileRepo.NewUpdateProfileRepo(store)
+		repo := profileRepo.NewUpdateProfileRepo(store, req)
 		biz := profileBusiness.NewUpdateProfileBiz(repo)
 
 		if err := biz.UpdateProfile(c.Request.Context(), id, &data); err != nil {
 			panic(err)
 		}
-		data.Mark(false)
-		c.IndentedJSON(http.StatusOK, common.SimpleSuccessResponse(data.FakeId.String()))
-
+		c.IndentedJSON(http.StatusOK, common.SimpleSuccessResponse(true))
 	}
 }
