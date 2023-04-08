@@ -4,9 +4,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"go_service_food_organic/common"
 	appContext "go_service_food_organic/component/app_context"
+	uploadProvider "go_service_food_organic/component/upload_provider"
 	"go_service_food_organic/middleware"
 	foodTransport "go_service_food_organic/module/food/transport"
 	profileTransport "go_service_food_organic/module/profile/transport"
+	uploadTransport "go_service_food_organic/module/upload/transport"
 	userTransport "go_service_food_organic/module/user/transport"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -25,8 +27,15 @@ func main() {
 	db.Debug()
 
 	SecretKey := os.Getenv("SYSTEM_SECRET")
+	s3BucketName := os.Getenv("S3_BUCKET_NAME")
+	s3Region := os.Getenv("S3_REGION")
+	s3APIKey := os.Getenv("S3_ACCESS_KEY")
+	s3SecretKey := os.Getenv("S3_SECRET_KEY")
+	s3Domain := os.Getenv("S3_DOMAIN")
 
-	appCtx := appContext.NewAppContext(db, SecretKey)
+	s3Provider := uploadProvider.NewS3Provider(s3BucketName, s3Region, s3APIKey, s3SecretKey, s3Domain)
+
+	appCtx := appContext.NewAppContext(db, SecretKey, s3Provider)
 
 	rt := gin.Default()
 	rt.Use(middleware.Recover(appCtx))
@@ -37,6 +46,11 @@ func main() {
 			middleware.RequiredAuth(appCtx),
 			middleware.RoleRequired(appCtx, common.Admin),
 		)
+
+		{
+			upload := admin.Group("upload")
+			upload.POST("image", uploadTransport.GinUploadImage(appCtx))
+		}
 
 		{
 			food := admin.Group("food")
