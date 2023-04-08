@@ -1,7 +1,6 @@
 package userModel
 
 import (
-	"errors"
 	"go_service_food_organic/common"
 )
 
@@ -49,19 +48,12 @@ type UserLogin struct {
 
 func (UserLogin) GetTableName() string { return User{}.GetTableName() }
 
-func ErrorUserExists() *common.AppError {
-	return common.NewCustomError(errors.New(ErrUserExists), MgsUserExists, ErrUserExists)
-}
-
 func ErrorEmailOrPasswordInvalid(err error) *common.AppError {
 	return common.NewCustomError(err, MsgEmailOrPasswordInvalid, ErrEmailOrPasswordInvalid)
 }
 
 const (
-	Entity = "User"
-
-	ErrUserExists = "ErrUserExists"
-	MgsUserExists = "user exists"
+	EntityName = "User"
 
 	ErrEmailOrPasswordInvalid = "ErrEmailOrPasswordInvalid"
 	MsgEmailOrPasswordInvalid = "email or password invalid"

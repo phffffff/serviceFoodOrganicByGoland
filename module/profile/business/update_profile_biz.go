@@ -20,7 +20,7 @@ func NewUpdateProfileBiz(repo UpdateProfileRepo) *updateProfileBiz {
 
 func (biz *updateProfileBiz) UpdateProfile(c context.Context, id int, data *profileModel.ProfileUpdate) error {
 	if err := biz.repo.UpdateProfileRepo(c, id, data); err != nil {
-		return common.ErrInternal(err)
+		return common.ErrCannotCRUDEntity(profileModel.EntityName, common.Update, err)
 	}
 	return nil
 }

@@ -29,7 +29,7 @@ func (biz *listFoodBiz) ListFoodWithFilter(
 
 	list, err := biz.store.ListDataWithCondition(c, filter, paging)
 	if err != nil {
-		return nil, err
+		return nil, common.ErrCannotCRUDEntity(foodModel.EntityName, common.List, err)
 	}
 
 	return list, nil

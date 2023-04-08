@@ -4,6 +4,8 @@ import (
 	"go_service_food_organic/common"
 )
 
+const EntityName = "Food"
+
 // modelList
 type Food struct {
 	common.SQLModel `json:",inline"`

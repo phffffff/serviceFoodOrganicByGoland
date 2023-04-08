@@ -4,6 +4,7 @@ import (
 	"context"
 	"go_service_food_organic/common"
 	profileModel "go_service_food_organic/module/profile/model"
+	"log"
 )
 
 type ListProfileStore interface {
@@ -28,13 +29,14 @@ func (biz *listProfileBiz) ListProfileWithFilter(
 	filter *profileModel.Filter,
 	paging *common.Paging) ([]profileModel.Profile, error) {
 
+	log.Println("req:", biz.req.GetRole())
 	if biz.req.GetRole() != common.Admin {
 		return nil, common.ErrorNoPermission(nil)
 	}
 
 	list, err := biz.store.ListDataWithFilter(c, filter, paging)
 	if err != nil {
-		return nil, err
+		return nil, common.ErrCannotCRUDEntity(profileModel.EntityName, common.List, err)
 	}
 
 	return list, nil

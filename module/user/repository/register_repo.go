@@ -38,12 +38,12 @@ func NewRegisterRepo(
 }
 
 func (repo *registerRepo) RegisterRepo(c context.Context, data *userModel.UserRegister) error {
-	user, _ := repo.storeUser.FindDataWithCondition(c, map[string]interface{}{"email": data.Email})
+	user, err := repo.storeUser.FindDataWithCondition(c, map[string]interface{}{"email": data.Email})
 	if user != nil {
 		if user.Status == 0 {
-			return userModel.ErrorUserExists()
+			return common.ErrEntityDeleted(userModel.EntityName, err)
 		}
-		return userModel.ErrorUserExists()
+		return common.ErrEntityExists(userModel.EntityName, err)
 	}
 
 	salt := common.GetSalt(50)
@@ -51,7 +51,7 @@ func (repo *registerRepo) RegisterRepo(c context.Context, data *userModel.UserRe
 	data.Salt = salt
 
 	if err := repo.storeUser.Create(c, data); err != nil {
-		return common.ErrCannotCRUDEntity(userModel.Entity, common.Create, err)
+		return common.ErrCannotCRUDEntity(userModel.EntityName, common.Create, err)
 	}
 
 	profile := profileModel.ProfileRegister{

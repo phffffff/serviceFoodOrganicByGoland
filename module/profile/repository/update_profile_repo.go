@@ -34,24 +34,23 @@ func (repo *updateProfileRepo) UpdateProfileRepo(
 	if profile == nil && err != nil {
 		return common.ErrRecordNotFound(profileModel.EntityName, err)
 	}
+	if profile.UserId == repo.req.GetUserId() || repo.req.GetRole() == common.Admin {
+		val := reflect.ValueOf(data).Elem()
 
-	if profile.UserId != repo.req.GetUserId() {
-		return common.ErrorNoPermission(nil)
-	}
+		for i := 0; i < val.NumField(); i++ {
+			field := val.Type().Field(i)
+			value := val.Field(i).Interface()
 
-	val := reflect.ValueOf(data).Elem()
-
-	for i := 0; i < val.NumField(); i++ {
-		field := val.Type().Field(i)
-		value := val.Field(i).Interface()
-
-		if value != "" {
-			reflect.ValueOf(profile).Elem().FieldByName(field.Name).Set(reflect.ValueOf(value))
+			if value != "" {
+				reflect.ValueOf(profile).Elem().FieldByName(field.Name).Set(reflect.ValueOf(value))
+			}
 		}
-	}
 
-	if err := repo.store.Update(c, profile.Id, profile); err != nil {
-		return common.ErrInternal(err)
+		if err := repo.store.Update(c, profile.Id, profile); err != nil {
+			return common.ErrInternal(err)
+		}
+		return nil
+
 	}
-	return nil
+	return common.ErrorNoPermission(nil)
 }

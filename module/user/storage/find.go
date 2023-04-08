@@ -12,6 +12,9 @@ func (sql *sqlModel) FindDataWithCondition(
 	moreKeys ...string) (*userModel.User, error) {
 
 	db := sql.db.Table(userModel.User{}.GetTableName())
+	if err := db.Error; err != nil {
+		return nil, common.ErrDB(err)
+	}
 	//for i := range moreKeys {
 	//	db = db.Preload(moreKeys[i])
 	//}

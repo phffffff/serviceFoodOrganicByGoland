@@ -110,8 +110,24 @@ func ErrRecordNotFound(entity string, err error) *AppError {
 func ErrEntityDeleted(entity string, err error) *AppError {
 	return NewCustomError(
 		err,
-		fmt.Sprintf("%s deleted", entity),
+		fmt.Sprintf("%s deleted", strings.ToLower(entity)),
 		fmt.Sprintf("Err%sDeleted", strings.ToTitle(strings.ToLower(entity))),
+	)
+}
+
+func ErrEntityNotExists(entity string, err error) *AppError {
+	return NewCustomError(
+		err,
+		fmt.Sprintf("%s not exists", strings.ToLower(entity)),
+		fmt.Sprintf("Err%sNotExists", strings.ToTitle(strings.ToLower(entity))),
+	)
+}
+
+func ErrEntityExists(entity string, err error) *AppError {
+	return NewCustomError(
+		err,
+		fmt.Sprintf("%s exists", strings.ToLower(entity)),
+		fmt.Sprintf("Err%sExists", strings.ToTitle(strings.ToLower(entity))),
 	)
 }
 

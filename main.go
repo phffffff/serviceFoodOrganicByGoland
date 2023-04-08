@@ -37,23 +37,38 @@ func main() {
 			middleware.RequiredAuth(appCtx),
 			middleware.RoleRequired(appCtx, common.Admin),
 		)
+
 		{
 			food := admin.Group("food")
 			food.GET("/listfood", foodTransport.GinListFood(appCtx))
 			food.POST("/createfood", foodTransport.GinCreateFood(appCtx))
 		}
+
+		{
+			user := admin.Group("user")
+			user.GET("/list", userTransport.GinListUser(appCtx))
+			user.DELETE("/delete/:id", userTransport.GinDeleteUser(appCtx))
+		}
+
+		{
+			profile := admin.Group("profile")
+			profile.GET("/list", profileTransport.GinListProfile(appCtx))
+			profile.PUT("update/:id", profileTransport.GinUpdateProfile(appCtx))
+		}
 	}
+	//user
 	{
 		user := rt.Group("user")
-		user.POST("/register", userTransport.GinRegister(appCtx))
-		user.POST("/authenticate", userTransport.GinLogin(appCtx))
-	}
-	{
-		profile := rt.Group("profile",
+		user.POST("register", userTransport.GinRegister(appCtx))
+		user.POST("authenticate", userTransport.GinLogin(appCtx))
+		user.DELETE("delete/:id",
 			middleware.RequiredAuth(appCtx),
+			userTransport.GinDeleteUser(appCtx),
 		)
+	}
 
-		profile.GET("/list", middleware.RoleRequired(appCtx, common.Admin), profileTransport.GinListProfile(appCtx))
+	{
+		profile := rt.Group("profile", middleware.RequiredAuth(appCtx))
 		profile.PUT("update/:id", profileTransport.GinUpdateProfile(appCtx))
 	}
 

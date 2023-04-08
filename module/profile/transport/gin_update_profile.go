@@ -18,7 +18,7 @@ func GinUpdateProfile(appCtx appContext.AppContext) gin.HandlerFunc {
 
 		uid, err := common.FromBase58(c.Param("id"))
 		if err != nil {
-			panic(err)
+			c.IndentedJSON(http.StatusBadRequest, common.ErrInvalidRequest(err))
 		}
 		id := int(uid.GetLocalID())
 

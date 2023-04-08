@@ -20,7 +20,7 @@ func NewCreateFoodBiz(store CreateFoodStore) *createFoodBiz {
 
 func (biz *createFoodBiz) CreateFood(c context.Context, data *foodModel.FoodCreate) error {
 	if err := biz.store.Create(c, data); err != nil {
-		return common.ErrInternal(err)
+		return common.ErrCannotCRUDEntity(foodModel.EntityName, common.Create, err)
 	}
 	return nil
 }
