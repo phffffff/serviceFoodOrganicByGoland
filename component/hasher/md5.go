@@ -16,3 +16,8 @@ func (h *md5Hash) Hash(data string) string {
 	hasher.Write([]byte(data))
 	return hex.EncodeToString(hasher.Sum(nil))
 }
+
+func (h *md5Hash) HashSliceByte(data []byte) string {
+	hasher := md5.Sum(data)
+	return hex.EncodeToString(hasher[:])
+}

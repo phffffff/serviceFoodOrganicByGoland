@@ -1,10 +1,13 @@
-package uploadTransport
+package imageTransport
 
 import (
 	"github.com/gin-gonic/gin"
 	"go_service_food_organic/common"
 	appContext "go_service_food_organic/component/app_context"
-	uploadBusiness "go_service_food_organic/module/upload/business"
+	hash "go_service_food_organic/component/hasher"
+	imageBusiness "go_service_food_organic/module/upload/image/business"
+	imageRepo "go_service_food_organic/module/upload/image/repository"
+	imageStorage "go_service_food_organic/module/upload/image/storage"
 	"net/http"
 )
 
@@ -47,11 +50,18 @@ func GinUploadImage(appCtx appContext.AppContext) gin.HandlerFunc {
 			panic(common.ErrInvalidRequest(err))
 		}
 
-		biz := uploadBusiness.NewUploadImageBiz(appCtx.UploadProvider(), nil)
+		db := appCtx.GetMyDBConnection()
+		hasher := hash.NewMd5Hash()
+
+		store := imageStorage.NewSqlModel(db)
+		repo := imageRepo.NewUploadImageRepo(appCtx.UploadProvider(), store, hasher)
+		biz := imageBusiness.NewUploadImageBiz(repo)
+
 		img, err := biz.Upload(c.Request.Context(), dataBytes, folder, fileHeader.Filename)
 		if err != nil {
 			panic(err)
 		}
+		img.Mark(false)
 		c.IndentedJSON(http.StatusOK, common.SimpleSuccessResponse(img))
 	}
 }

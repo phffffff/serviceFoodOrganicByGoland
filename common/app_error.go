@@ -99,6 +99,13 @@ func ErrCannotCRUDEntity(entity string, crud string, err error) *AppError {
 	)
 }
 
+func ErrorCannotCommit(err error) *AppError {
+	return NewCustomError(err, MsgCannotCommit, ErrCannotCommit)
+}
+func ErrorCannotRollback(err error) *AppError {
+	return NewCustomError(err, MsgCannotRollback, ErrCannotRollback)
+}
+
 func ErrRecordNotFound(entity string, err error) *AppError {
 	return NewCustomError(
 		err,

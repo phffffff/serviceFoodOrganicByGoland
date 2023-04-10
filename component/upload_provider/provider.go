@@ -7,4 +7,5 @@ import (
 
 type UploadProvider interface {
 	SaveFileUploaded(c context.Context, data []byte, dst string) (*common.Image, error)
+	//CheckFileExists(c context.Context)
 }

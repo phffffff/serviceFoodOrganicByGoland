@@ -20,9 +20,16 @@ const (
 	MsgInvalidReq        = "invalid request"
 	ErrInvalidRequestKey = "ErrInvalidRequest"
 
+	MsgCannotCommit = "can not commit"
+	ErrCannotCommit = "ErrCannotCommit"
+
+	MsgCannotRollback = "can not roll back"
+	ErrCannotRollback = "ErrCannotRollback"
+
 	OjbTypeUser    = 1
 	OjbTypeFood    = 2
 	OjbTypeProfile = 3
+	OjbTypeImage   = 4
 )
 
 type Requester interface {

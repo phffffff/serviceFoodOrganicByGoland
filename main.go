@@ -8,7 +8,7 @@ import (
 	"go_service_food_organic/middleware"
 	foodTransport "go_service_food_organic/module/food/transport"
 	profileTransport "go_service_food_organic/module/profile/transport"
-	uploadTransport "go_service_food_organic/module/upload/transport"
+	"go_service_food_organic/module/upload/image/transport"
 	userTransport "go_service_food_organic/module/user/transport"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -49,7 +49,7 @@ func main() {
 
 		{
 			upload := admin.Group("upload")
-			upload.POST("image", uploadTransport.GinUploadImage(appCtx))
+			upload.POST("image", imageTransport.GinUploadImage(appCtx))
 		}
 
 		{

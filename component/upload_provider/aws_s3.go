@@ -51,7 +51,9 @@ func (provider *s3Provider) SaveFileUploaded(c context.Context, data []byte, dst
 	fileBytes := bytes.NewReader(data)
 	fileType := http.DetectContentType(data)
 
-	_, err := s3.New(provider.session).PutObject(&s3.PutObjectInput{
+	svc := s3.New(provider.session)
+
+	_, err := svc.PutObject(&s3.PutObjectInput{
 		ACL:         aws.String("private"),
 		Body:        fileBytes,
 		Bucket:      aws.String(provider.bucketName),
@@ -69,3 +71,11 @@ func (provider *s3Provider) SaveFileUploaded(c context.Context, data []byte, dst
 
 	return img, nil
 }
+
+//_, err := svc.HeadObject(&s3.HeadObjectInput{
+//Bucket: aws.String(provider.bucketName),
+//Key:    aws.String(dst),
+//})
+//if err == nil {
+//return nil, err
+//}
