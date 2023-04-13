@@ -8,7 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
-	"go_service_food_organic/common"
+	"go_service_food_organic/module/upload/image/model"
 	"log"
 	"net/http"
 )
@@ -47,11 +47,16 @@ func NewS3Provider(bucketName string, region string, apiKey string, secret strin
 	return provider
 }
 
-func (provider *s3Provider) SaveFileUploaded(c context.Context, data []byte, dst string) (*common.Image, error) {
+func (provider *s3Provider) SaveFileUploaded(c context.Context, data []byte, dst string) (*imageModel.Image, error) {
 	fileBytes := bytes.NewReader(data)
 	fileType := http.DetectContentType(data)
 
 	svc := s3.New(provider.session)
+
+	flag, _ := provider.isObjectExists(dst, svc)
+	if flag {
+		return nil, imageModel.ErrorFileExists()
+	}
 
 	_, err := svc.PutObject(&s3.PutObjectInput{
 		ACL:         aws.String("private"),
@@ -64,7 +69,7 @@ func (provider *s3Provider) SaveFileUploaded(c context.Context, data []byte, dst
 		return nil, err
 	}
 
-	img := &common.Image{
+	img := &imageModel.Image{
 		Url:       fmt.Sprintf("%s/%s", provider.domain, dst),
 		CloudName: "s3",
 	}
@@ -72,10 +77,21 @@ func (provider *s3Provider) SaveFileUploaded(c context.Context, data []byte, dst
 	return img, nil
 }
 
-//_, err := svc.HeadObject(&s3.HeadObjectInput{
-//Bucket: aws.String(provider.bucketName),
-//Key:    aws.String(dst),
-//})
-//if err == nil {
-//return nil, err
-//}
+func (provider *s3Provider) isObjectExists(dst string, svc *s3.S3) (bool, error) {
+
+	// List all objects in the bucket
+	resp, err := svc.ListObjects(&s3.ListObjectsInput{
+		Bucket: aws.String(provider.bucketName),
+	})
+
+	if err != nil {
+		return false, err
+	}
+
+	for _, obj := range resp.Contents {
+		if aws.StringValue(obj.Key) == dst {
+			return true, nil
+		}
+	}
+	return false, nil
+}

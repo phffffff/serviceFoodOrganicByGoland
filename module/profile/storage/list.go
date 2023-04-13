@@ -12,7 +12,7 @@ func (sqlModel *sqlModel) ListDataWithFilter(
 	paging *common.Paging,
 	moreKeys ...string) ([]profileModel.Profile, error) {
 
-	db := sqlModel.db.Table(profileModel.Profile{}.GetTableName())
+	db := sqlModel.db
 
 	if err := db.Error; err != nil {
 		return nil, common.ErrDB(err)
@@ -22,9 +22,14 @@ func (sqlModel *sqlModel) ListDataWithFilter(
 		db = db.Where("status = (?)", filter.Status)
 	}
 
-	if err := db.Count(&paging.Total).Error; err != nil {
+	if err := db.Table(profileModel.Profile{}.GetTableName()).Count(&paging.Total).Error; err != nil {
 		return nil, common.ErrDB(err)
 	}
+
+	//db = db.Preload("Image")
+	//for _, item := range moreKeys {
+	//	db = db.Preload(item)
+	//}
 
 	if cursor := paging.FakeCursor; cursor != "" {
 
@@ -34,7 +39,7 @@ func (sqlModel *sqlModel) ListDataWithFilter(
 			return nil, common.ErrInternal(err)
 		}
 		id := int(uid.GetLocalID())
-		
+
 		db = db.Where("id < (?)", id)
 		if err := db.Error; err != nil {
 			return nil, common.ErrInternal(err)

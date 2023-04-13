@@ -1,6 +1,9 @@
 package profileModel
 
-import "go_service_food_organic/common"
+import (
+	"go_service_food_organic/common"
+	imageModel "go_service_food_organic/module/upload/image/model"
+)
 
 const EntityName = "Profile"
 
@@ -21,12 +24,13 @@ func (p *ProfileRegister) Mark(isAdminOrOwner bool) {
 
 type Profile struct {
 	common.SQLModel
-	Email     string `json:"email" gorm:"column:email;"`
-	Phone     string `json:"phone" gorm:"column:phone;"`
-	LastName  string `json:"last_name" gorm:"column:last_name;"`
-	FirstName string `json:"first_name" gorm:"column:first_name;"`
-	UserId    int    `json:"-" gorm:"column:user_id"`
-	//Avatar
+	Email     string                  `json:"email" gorm:"column:email;"`
+	Phone     string                  `json:"phone" gorm:"column:phone;"`
+	LastName  string                  `json:"last_name" gorm:"column:last_name;"`
+	FirstName string                  `json:"first_name" gorm:"column:first_name;"`
+	UserId    int                     `json:"-" gorm:"column:user_id;"`
+	AvatarId  int                     `json:"avatar_id" gorm:"column:avatar_id;"`
+	Image     *imageModel.SimpleImage `json:"image" gorm:"preload:false;foreignKey:AvatarId;"`
 }
 
 func (Profile) GetTableName() string { return ProfileRegister{}.GetTableName() }
@@ -36,11 +40,12 @@ func (p *Profile) Mark(isAdminOrOwner bool) {
 }
 
 type ProfileUpdate struct {
-	Email     string `json:"email" gorm:"column:email;"`
-	Phone     string `json:"phone" gorm:"column:phone;"`
-	LastName  string `json:"last_name" gorm:"column:last_name;"`
-	FirstName string `json:"first_name" gorm:"column:first_name;"`
-	//Avatar
+	Email     string                  `json:"email" gorm:"column:email;"`
+	Phone     string                  `json:"phone" gorm:"column:phone;"`
+	LastName  string                  `json:"last_name" gorm:"column:last_name;"`
+	FirstName string                  `json:"first_name" gorm:"column:first_name;"`
+	AvatarId  int                     `json:"avatar_id" gorm:"column:avatar_id;"`
+	Image     *imageModel.SimpleImage `json:"image" gorm:"preload:false;foreignKey:AvatarId;"`
 }
 
 func (ProfileUpdate) GetTableName() string { return ProfileUpdate{}.GetTableName() }

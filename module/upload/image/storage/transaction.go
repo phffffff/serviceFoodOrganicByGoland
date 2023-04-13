@@ -2,11 +2,12 @@ package imageStorage
 
 import (
 	"go_service_food_organic/common"
+	"go_service_food_organic/module/upload/image/model"
 	"gorm.io/gorm"
 )
 
 func (sql *sqlModel) BeginTransaction() (*gorm.DB, error) {
-	db := sql.db.Table(common.Image{}.GetTableName()).Begin()
+	db := sql.db.Table(imageModel.Image{}.GetTableName()).Begin()
 	if err := db.Error; err != nil {
 		return nil, common.ErrDB(err)
 	}

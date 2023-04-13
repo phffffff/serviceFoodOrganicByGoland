@@ -1,6 +1,9 @@
-package common
+package imageModel
 
-import "errors"
+import (
+	"errors"
+	"go_service_food_organic/common"
+)
 
 const (
 	EntityName = "Image"
@@ -16,16 +19,19 @@ const (
 
 	ErrInvalidImageFormat = "ErrInvalidImageFormat"
 	MsgInvalidImageFormat = "unknown format image"
+
+	MsgErrorFileExists = "file exists"
+	ErrFileExists      = "ErrFileExists"
 )
 
 type Image struct {
-	SQLModel  `json:",inline"`
-	Url       string `json:"url" gorm:"column:url;"`
-	Width     int    `json:"width" gorm:"column:width;"`
-	Height    int    `json:"height" gorm:"column:height;"`
-	HashValue string `json:"hash_value" gorm:"column:hash_value;"`
-	CloudName string `json:"cloud_name,omitempty" gorm:"-"`
-	Extension string `json:"extension,omitempty" gorm:"-"`
+	common.SQLModel `json:",inline"`
+	Url             string `json:"url" gorm:"column:url;"`
+	Width           int    `json:"width" gorm:"column:width;"`
+	Height          int    `json:"height" gorm:"column:height;"`
+	HashName        string `json:"hash_name" gorm:"column:hash_name;"`
+	CloudName       string `json:"cloud_name,omitempty" gorm:"-"`
+	Extension       string `json:"extension,omitempty" gorm:"-"`
 }
 
 func (Image) GetTableName() string {
@@ -33,27 +39,48 @@ func (Image) GetTableName() string {
 }
 
 func (img *Image) Mark(isAdminOrOwner bool) {
-	img.GetUID(OjbTypeImage)
+	img.GetUID(common.OjbTypeImage)
 }
 
-func ErrorInvalidImageFormat(err error) *AppError {
-	return NewCustomError(err, MsgInvalidImageFormat, ErrInvalidImageFormat)
+type SimpleImage struct {
+	common.SQLModel `json:",inline"`
+	Url             string `json:"url" gorm:"column:url;"`
 }
 
-func ErrFileTooLarge() *AppError {
-	return NewCustomError(
+func (SimpleImage) GetTableName() string {
+	return Image{}.GetTableName()
+}
+
+func (img *SimpleImage) Mark(isAdminOrOwner bool) {
+	img.GetUID(common.OjbTypeImage)
+}
+
+func ErrorFileExists() *common.AppError {
+	return common.NewCustomError(
+		errors.New(MsgErrorFileExists),
+		MsgErrorFileExists,
+		ErrFileExists,
+	)
+}
+
+func ErrorInvalidImageFormat(err error) *common.AppError {
+	return common.NewCustomError(err, MsgInvalidImageFormat, ErrInvalidImageFormat)
+}
+
+func ErrFileTooLarge() *common.AppError {
+	return common.NewCustomError(
 		errors.New(MsgFileTooLarge),
 		MsgFileTooLarge,
 		ErrFileUploadTooLarge,
 	)
 }
 
-func ErrFileIsNotImage(err error) *AppError {
-	return NewCustomError(err, MsgFileIsNotImage, ErrFileUploadIsNotImage)
+func ErrFileIsNotImage(err error) *common.AppError {
+	return common.NewCustomError(err, MsgFileIsNotImage, ErrFileUploadIsNotImage)
 }
 
-func CanNotServerSave(err error) *AppError {
-	return NewCustomError(err, MsgCanNotSaveFile, ErrCanNotSaveFile)
+func CanNotServerSave(err error) *common.AppError {
+	return common.NewCustomError(err, MsgCanNotSaveFile, ErrCanNotSaveFile)
 }
 
 //

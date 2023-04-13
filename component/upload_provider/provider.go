@@ -2,10 +2,9 @@ package uploadProvider
 
 import (
 	"context"
-	"go_service_food_organic/common"
+	"go_service_food_organic/module/upload/image/model"
 )
 
 type UploadProvider interface {
-	SaveFileUploaded(c context.Context, data []byte, dst string) (*common.Image, error)
-	//CheckFileExists(c context.Context)
+	SaveFileUploaded(c context.Context, data []byte, dst string) (*imageModel.Image, error)
 }

@@ -9,9 +9,9 @@ import (
 func (sqlModel *sqlModel) ListDataWithFilter(
 	c context.Context,
 	filter *imageModel.Filter,
-	paging *common.Paging) ([]common.Image, error) {
+	paging *common.Paging) ([]imageModel.Image, error) {
 
-	db := sqlModel.db.Table(common.Image{}.GetTableName())
+	db := sqlModel.db.Table(imageModel.Image{}.GetTableName())
 
 	if err := db.Error; err != nil {
 		return nil, common.ErrDB(err)
@@ -41,7 +41,7 @@ func (sqlModel *sqlModel) ListDataWithFilter(
 		offset := (paging.Page - 1) * paging.Limit
 		db = db.Offset(offset)
 	}
-	var list []common.Image
+	var list []imageModel.Image
 
 	if err := db.Limit(paging.Limit).Order("id DESC").Find(&list).Error; err != nil {
 		return nil, common.ErrDB(err)

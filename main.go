@@ -48,8 +48,10 @@ func main() {
 		)
 
 		{
-			upload := admin.Group("upload")
-			upload.POST("image", imageTransport.GinUploadImage(appCtx))
+			upload := admin.Group("image")
+			upload.POST("upload", imageTransport.GinUploadImage(appCtx))
+			upload.GET("list", imageTransport.GinListImage(appCtx))
+			upload.DELETE("delete/:id", imageTransport.GinDeleteImage(appCtx))
 		}
 
 		{
