@@ -28,6 +28,15 @@ func GinUpdateProfile(appCtx appContext.AppContext) gin.HandlerFunc {
 			panic(err)
 		}
 
+		uidImg, err := common.FromBase58(data.AvatarFakeId)
+		if err != nil {
+			c.IndentedJSON(http.StatusBadRequest, common.ErrInvalidRequest(err))
+		}
+		idImg := int(uidImg.GetLocalID())
+		data.AvatarFakeId = ""
+
+		data.AvatarId = idImg
+
 		db := appCtx.GetMyDBConnection()
 		store := profileStorage.NewSqlModel(db)
 		repo := profileRepo.NewUpdateProfileRepo(store, req)

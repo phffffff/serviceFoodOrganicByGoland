@@ -34,7 +34,7 @@ type Image struct {
 	Extension       string `json:"extension,omitempty" gorm:"-"`
 }
 
-func (Image) GetTableName() string {
+func (Image) TableName() string {
 	return "images"
 }
 
@@ -42,16 +42,16 @@ func (img *Image) Mark(isAdminOrOwner bool) {
 	img.GetUID(common.OjbTypeImage)
 }
 
-type SimpleImage struct {
+type ImageProfile struct {
 	common.SQLModel `json:",inline"`
 	Url             string `json:"url" gorm:"column:url;"`
 }
 
-func (SimpleImage) GetTableName() string {
-	return Image{}.GetTableName()
+func (ImageProfile) TableName() string {
+	return Image{}.TableName()
 }
 
-func (img *SimpleImage) Mark(isAdminOrOwner bool) {
+func (img *ImageProfile) Mark(isAdminOrOwner bool) {
 	img.GetUID(common.OjbTypeImage)
 }
 
@@ -81,6 +81,12 @@ func ErrFileIsNotImage(err error) *common.AppError {
 
 func CanNotServerSave(err error) *common.AppError {
 	return common.NewCustomError(err, MsgCanNotSaveFile, ErrCanNotSaveFile)
+}
+
+type ErrorInfo struct {
+	FileName string
+	ImgInfo  *Image
+	ErrInfo  error
 }
 
 //

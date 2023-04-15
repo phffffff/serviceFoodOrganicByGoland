@@ -7,7 +7,7 @@ import (
 )
 
 func (sql *sqlModel) Create(c context.Context, data *imageModel.Image) error {
-	if err := sql.db.Table(imageModel.Image{}.GetTableName()).Create(&data).Error; err != nil {
+	if err := sql.db.Table(imageModel.Image{}.TableName()).Create(&data).Error; err != nil {
 		return common.ErrDB(err)
 	}
 	return nil

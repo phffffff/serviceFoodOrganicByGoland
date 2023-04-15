@@ -7,7 +7,7 @@ import (
 )
 
 func (sql *sqlModel) Create(c context.Context, data *profileModel.ProfileRegister) error {
-	if err := sql.db.Table(profileModel.ProfileRegister{}.GetTableName()).Create(&data).Error; err != nil {
+	if err := sql.db.Table(profileModel.ProfileRegister{}.TableName()).Create(&data).Error; err != nil {
 		return common.ErrDB(err)
 	}
 	return nil

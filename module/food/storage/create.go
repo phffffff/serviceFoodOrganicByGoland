@@ -7,7 +7,7 @@ import (
 )
 
 func (sql *sqlModel) Create(c context.Context, data *foodModel.FoodCreate) error {
-	if err := sql.db.Table(foodModel.FoodCreate{}.GetTableName()).Create(&data).Error; err != nil {
+	if err := sql.db.Table(foodModel.FoodCreate{}.TableName()).Create(&data).Error; err != nil {
 		return common.ErrDB(err)
 	}
 	return nil

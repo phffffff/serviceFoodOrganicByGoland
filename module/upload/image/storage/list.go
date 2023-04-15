@@ -11,7 +11,7 @@ func (sqlModel *sqlModel) ListDataWithFilter(
 	filter *imageModel.Filter,
 	paging *common.Paging) ([]imageModel.Image, error) {
 
-	db := sqlModel.db.Table(imageModel.Image{}.GetTableName())
+	db := sqlModel.db.Table(imageModel.Image{}.TableName())
 
 	if err := db.Error; err != nil {
 		return nil, common.ErrDB(err)

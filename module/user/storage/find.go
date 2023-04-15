@@ -11,7 +11,7 @@ func (sql *sqlModel) FindDataWithCondition(
 	cond map[string]interface{},
 	moreKeys ...string) (*userModel.User, error) {
 
-	db := sql.db.Table(userModel.User{}.GetTableName())
+	db := sql.db.Table(userModel.User{}.TableName())
 	if err := db.Error; err != nil {
 		return nil, common.ErrDB(err)
 	}

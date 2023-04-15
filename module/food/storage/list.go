@@ -8,7 +8,7 @@ import (
 
 func (sql *sqlModel) ListDataWithCondition(c context.Context, filter *foodModel.Filter, paging *common.Paging, moreKeys ...string) ([]foodModel.Food, error) {
 	var list []foodModel.Food
-	db := sql.db.Table(foodModel.Food{}.GetTableName())
+	db := sql.db.Table(foodModel.Food{}.TableName())
 	if err := db.Error; err != nil {
 		return nil, common.ErrDB(err)
 	}

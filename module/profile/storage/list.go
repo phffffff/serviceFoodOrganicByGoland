@@ -6,30 +6,27 @@ import (
 	profileModel "go_service_food_organic/module/profile/model"
 )
 
-func (sqlModel *sqlModel) ListDataWithFilter(
+func (sql *sqlModel) ListDataWithFilter(
 	c context.Context,
 	filter *profileModel.Filter,
 	paging *common.Paging,
 	moreKeys ...string) ([]profileModel.Profile, error) {
 
-	db := sqlModel.db
+	var list []profileModel.Profile
+
+	db := sql.db.Table(profileModel.Profile{}.TableName())
 
 	if err := db.Error; err != nil {
 		return nil, common.ErrDB(err)
 	}
 
 	if filter.Status >= 0 {
-		db = db.Where("status = (?)", filter.Status)
+		db = db.Where("status in (?)", filter.Status)
 	}
 
-	if err := db.Table(profileModel.Profile{}.GetTableName()).Count(&paging.Total).Error; err != nil {
+	if err := db.Count(&paging.Total).Error; err != nil {
 		return nil, common.ErrDB(err)
 	}
-
-	//db = db.Preload("Image")
-	//for _, item := range moreKeys {
-	//	db = db.Preload(item)
-	//}
 
 	if cursor := paging.FakeCursor; cursor != "" {
 
@@ -48,9 +45,15 @@ func (sqlModel *sqlModel) ListDataWithFilter(
 		offset := (paging.Page - 1) * paging.Limit
 		db = db.Offset(offset)
 	}
-	var list []profileModel.Profile
 
-	if err := db.Limit(paging.Limit).Order("id DESC").Find(&list).Error; err != nil {
+	for _, item := range moreKeys {
+		db = db.Preload(item)
+	}
+
+	if err := db.
+		Limit(paging.Limit).
+		Order("id desc").
+		Find(&list).Error; err != nil {
 		return nil, common.ErrDB(err)
 	}
 
@@ -58,6 +61,10 @@ func (sqlModel *sqlModel) ListDataWithFilter(
 		lastData := list[len(list)-1]
 		lastData.Mark(false)
 		paging.NextCursor = lastData.FakeId.String()
+	}
+
+	for idx := range list {
+		list[idx].Image.Mark(false)
 	}
 
 	return list, nil

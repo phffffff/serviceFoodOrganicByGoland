@@ -7,7 +7,7 @@ import (
 )
 
 func (sql *sqlModel) BeginTransaction() (*gorm.DB, error) {
-	db := sql.db.Table(imageModel.Image{}.GetTableName()).Begin()
+	db := sql.db.Table(imageModel.Image{}.TableName()).Begin()
 	if err := db.Error; err != nil {
 		return nil, common.ErrDB(err)
 	}

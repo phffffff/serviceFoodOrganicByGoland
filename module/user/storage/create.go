@@ -7,7 +7,7 @@ import (
 )
 
 func (sql *sqlModel) Create(c context.Context, data *userModel.UserRegister) error {
-	if err := sql.db.Table(userModel.UserLogin{}.GetTableName()).
+	if err := sql.db.Table(userModel.UserLogin{}.TableName()).
 		Create(&data).Error; err != nil {
 		return common.ErrDB(err)
 	}

@@ -12,7 +12,7 @@ func (sql *sqlModel) FindDataWithConditon(
 	cond map[string]interface{},
 	morekeys ...string) (*profileModel.Profile, error) {
 	var data profileModel.Profile
-	if err := sql.db.Table(profileModel.Profile{}.GetTableName()).Where(cond).First(&data).Error; err != nil {
+	if err := sql.db.Table(profileModel.Profile{}.TableName()).Where(cond).First(&data).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, common.ErrRecordNotFound(profileModel.EntityName, err)
 		}

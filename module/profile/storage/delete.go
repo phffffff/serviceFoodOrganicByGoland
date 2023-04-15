@@ -8,7 +8,7 @@ import (
 
 func (sql *sqlModel) DeleteProfile(c context.Context, idProfile int) error {
 	if err := sql.db.
-		Table(profileModel.Profile{}.GetTableName()).
+		Table(profileModel.Profile{}.TableName()).
 		Where("id = (?)", idProfile).
 		Updates(map[string]interface{}{"status": 0}).Error; err != nil {
 		return common.ErrDB(err)

@@ -7,7 +7,7 @@ import (
 )
 
 func (sql *sqlModel) DeleteUser(c context.Context, idUser int) error {
-	if err := sql.db.Table(userModel.User{}.GetTableName()).
+	if err := sql.db.Table(userModel.User{}.TableName()).
 		Where("id = (?)", idUser).
 		Updates(map[string]interface{}{"status": 0}).
 		Error; err != nil {

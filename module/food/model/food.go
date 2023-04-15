@@ -18,7 +18,7 @@ type Food struct {
 	BrandId int `json:"brand_id" gorm:"column:brand_id;"`
 }
 
-func (Food) GetTableName() string { return "foods" }
+func (Food) TableName() string { return "foods" }
 
 func (f *Food) Mark(isAdminOrOwner bool) {
 	f.GetUID(common.OjbTypeFood)
@@ -39,4 +39,4 @@ func (f *FoodCreate) Mark(isAdminOrOwner bool) {
 func (data *FoodCreate) Validate() {
 }
 
-func (FoodCreate) GetTableName() string { return Food{}.GetTableName() }
+func (FoodCreate) TableName() string { return Food{}.TableName() }

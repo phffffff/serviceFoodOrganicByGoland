@@ -64,6 +64,7 @@ func main() {
 			user := admin.Group("user")
 			user.GET("/list", userTransport.GinListUser(appCtx))
 			user.DELETE("/delete/:id", userTransport.GinDeleteUser(appCtx))
+			user.PATCH("/update-pass/:id", userTransport.GinUpdateUser(appCtx))
 		}
 
 		{
@@ -80,6 +81,10 @@ func main() {
 		user.DELETE("delete/:id",
 			middleware.RequiredAuth(appCtx),
 			userTransport.GinDeleteUser(appCtx),
+		)
+		user.PATCH("update-pass/:id",
+			middleware.RequiredAuth(appCtx),
+			userTransport.GinUpdateUser(appCtx),
 		)
 	}
 

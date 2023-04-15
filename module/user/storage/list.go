@@ -12,7 +12,7 @@ func (sqlModel *sqlModel) ListDataWithFilter(
 	paging *common.Paging,
 	moreKeys ...string) ([]userModel.User, error) {
 
-	db := sqlModel.db.Table(userModel.User{}.GetTableName())
+	db := sqlModel.db.Table(userModel.User{}.TableName())
 
 	if err := db.Error; err != nil {
 		return nil, common.ErrDB(err)
