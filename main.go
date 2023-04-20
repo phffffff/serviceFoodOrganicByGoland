@@ -1,23 +1,30 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"go_service_food_organic/common"
 	appContext "go_service_food_organic/component/app_context"
 	uploadProvider "go_service_food_organic/component/upload_provider"
 	"go_service_food_organic/middleware"
 	foodTransport "go_service_food_organic/module/food/transport"
 	profileTransport "go_service_food_organic/module/profile/transport"
-	"go_service_food_organic/module/upload/image/transport"
+	imageTransport "go_service_food_organic/module/upload/image/transport"
 	userTransport "go_service_food_organic/module/user/transport"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
 	"log"
 	"os"
+
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 func main() {
-	dsn := "cool_organic:@Klov3x124n@tcp(127.0.0.1:3307)/cool_organic?charset=utf8mb4&parseTime=True&loc=Local"
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalln("err:", err)
+	}
+
+	dsn := os.Getenv("DB_CONN")
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
