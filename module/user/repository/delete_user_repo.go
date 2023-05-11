@@ -65,4 +65,5 @@ func (biz *deleteUserRepo) DeleteUserRepo(c context.Context, id int) error {
 		}
 		return common.ErrorNoPermission(nil)
 	}
+	return nil
 }

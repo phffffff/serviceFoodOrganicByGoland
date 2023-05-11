@@ -6,6 +6,7 @@ import (
 )
 
 type AppContext interface {
+	GetSecretSaltHashImage() string
 	GetMyDBConnection() *gorm.DB
 	GetSecretkey() string
 	UploadProvider() uploadProvider.UploadProvider
@@ -15,17 +16,20 @@ type appContext struct {
 	db             *gorm.DB
 	secretKey      string
 	uploadProvider uploadProvider.UploadProvider
+	secretSalt     string
 }
 
 func NewAppContext(
 	db *gorm.DB,
 	secretKey string,
 	uploadProvider uploadProvider.UploadProvider,
+	secretSalt string,
 ) *appContext {
 	return &appContext{
 		db:             db,
 		secretKey:      secretKey,
 		uploadProvider: uploadProvider,
+		secretSalt:     secretKey,
 	}
 }
 
@@ -39,4 +43,8 @@ func (appCtx *appContext) GetSecretkey() string {
 
 func (appCtx *appContext) UploadProvider() uploadProvider.UploadProvider {
 	return appCtx.uploadProvider
+}
+
+func (appCtx *appContext) GetSecretSaltHashImage() string {
+	return appCtx.secretSalt
 }

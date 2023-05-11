@@ -22,7 +22,9 @@ func GinRegister(appCtx appContext.AppContext) gin.HandlerFunc {
 		}
 
 		db := appCtx.GetMyDBConnection()
-		hasher := hash.NewMd5Hash()
+		secretSalt := appCtx.GetSecretSaltHashImage()
+
+		hasher := hash.NewMd5Hash(secretSalt)
 		storeUser := userStorage.NewSqlModel(db)
 		storeProfile := profileStorage.NewSqlModel(db)
 		repo := userRepo.NewRegisterRepo(storeUser, hasher, storeProfile)

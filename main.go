@@ -6,24 +6,21 @@ import (
 	uploadProvider "go_service_food_organic/component/upload_provider"
 	"go_service_food_organic/middleware"
 	foodTransport "go_service_food_organic/module/food/transport"
+	imageTransport "go_service_food_organic/module/image/transport"
+	imageFoodTransport "go_service_food_organic/module/image_food/transport"
+	orderTransport "go_service_food_organic/module/order/transport"
+	orderDetailTransport "go_service_food_organic/module/order_detail/transport"
 	profileTransport "go_service_food_organic/module/profile/transport"
-	imageTransport "go_service_food_organic/module/upload/image/transport"
 	userTransport "go_service_food_organic/module/user/transport"
 	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalln("err:", err)
-	}
-
 	dsn := os.Getenv("DB_CONN")
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
@@ -33,7 +30,9 @@ func main() {
 
 	db.Debug()
 
-	SecretKey := os.Getenv("SYSTEM_SECRET")
+	secretKey := os.Getenv("SYSTEM_SECRET")
+	secretSalt := os.Getenv("SALT_HASH_DATA_IMG")
+
 	s3BucketName := os.Getenv("S3_BUCKET_NAME")
 	s3Region := os.Getenv("S3_REGION")
 	s3APIKey := os.Getenv("S3_ACCESS_KEY")
@@ -42,7 +41,7 @@ func main() {
 
 	s3Provider := uploadProvider.NewS3Provider(s3BucketName, s3Region, s3APIKey, s3SecretKey, s3Domain)
 
-	appCtx := appContext.NewAppContext(db, SecretKey, s3Provider)
+	appCtx := appContext.NewAppContext(db, secretKey, s3Provider, secretSalt)
 
 	rt := gin.Default()
 	rt.Use(middleware.Recover(appCtx))
@@ -62,9 +61,18 @@ func main() {
 		}
 
 		{
+			uploadFood := admin.Group("imagefood")
+			uploadFood.POST("create", imageFoodTransport.GinCreateImageFood(appCtx))
+			uploadFood.GET("list", imageFoodTransport.GinListImageFood(appCtx))
+			uploadFood.DELETE("delete/:id", imageFoodTransport.GinDeleteImageFood(appCtx))
+		}
+
+		{
 			food := admin.Group("food")
 			food.GET("/listfood", foodTransport.GinListFood(appCtx))
+			food.POST("/updatefood/:id", foodTransport.GinUpdateFood(appCtx))
 			food.POST("/createfood", foodTransport.GinCreateFood(appCtx))
+			food.DELETE("/deletefood/:id", foodTransport.GinDeleteFood(appCtx))
 		}
 
 		{
@@ -78,6 +86,16 @@ func main() {
 			profile := admin.Group("profile")
 			profile.GET("/list", profileTransport.GinListProfile(appCtx))
 			profile.PUT("update/:id", profileTransport.GinUpdateProfile(appCtx))
+		}
+
+		{
+			order := admin.Group("order")
+			order.GET("/list", orderTransport.GinListOrder(appCtx))
+		}
+
+		{
+			order := admin.Group("orderdetail")
+			order.GET("/list", orderDetailTransport.GinListOrderDetail(appCtx))
 		}
 	}
 	//user

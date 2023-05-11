@@ -18,7 +18,7 @@ func (sqlModel *sqlModel) ListDataWithFilter(
 		return nil, common.ErrDB(err)
 	}
 
-	if filter.Status >= 0 {
+	if len(filter.Status) >= 0 {
 		db = db.Where("status = (?)", filter.Status)
 	}
 

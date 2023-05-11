@@ -27,7 +27,7 @@ func (biz *listFoodBiz) ListFoodWithFilter(
 	filter *foodModel.Filter,
 	paging *common.Paging) ([]foodModel.Food, error) {
 
-	list, err := biz.store.ListDataWithCondition(c, filter, paging)
+	list, err := biz.store.ListDataWithCondition(c, filter, paging, "FoodImages")
 	if err != nil {
 		return nil, common.ErrCannotCRUDEntity(foodModel.EntityName, common.List, err)
 	}

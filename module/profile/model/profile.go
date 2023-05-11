@@ -2,7 +2,7 @@ package profileModel
 
 import (
 	"go_service_food_organic/common"
-	imageModel "go_service_food_organic/module/upload/image/model"
+	"go_service_food_organic/module/image/model"
 )
 
 const EntityName = "Profile"

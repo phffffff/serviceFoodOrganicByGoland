@@ -1,5 +1,5 @@
 package userModel
 
 type Filter struct {
-	Status int `json:"status" form:"status"`
+	Status []int `json:"status" form:"status"`
 }

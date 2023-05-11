@@ -5,10 +5,12 @@ import (
 	"encoding/hex"
 )
 
-type md5Hash struct{}
+type md5Hash struct {
+	salt string
+}
 
-func NewMd5Hash() *md5Hash {
-	return &md5Hash{}
+func NewMd5Hash(sait string) *md5Hash {
+	return &md5Hash{salt: sait}
 }
 
 func (h *md5Hash) Hash(data string) string {
@@ -18,6 +20,8 @@ func (h *md5Hash) Hash(data string) string {
 }
 
 func (h *md5Hash) HashSliceByte(data []byte) string {
-	hasher := md5.Sum(data)
-	return hex.EncodeToString(hasher[:])
+	hasher := md5.New()
+	hasher.Write(data)
+	hasher.Write([]byte(h.salt))
+	return hex.EncodeToString(hasher.Sum(nil))
 }

@@ -20,8 +20,10 @@ func GinLogin(appCtx appContext.AppContext) gin.HandlerFunc {
 			panic(err)
 		}
 		db := appCtx.GetMyDBConnection()
+		secretSalt := appCtx.GetSecretSaltHashImage()
+
 		store := userStorage.NewSqlModel(db)
-		hasher := hash.NewMd5Hash()
+		hasher := hash.NewMd5Hash(secretSalt)
 		tokenProvider := jwt.NewTokenJWTProvider(appCtx.GetSecretkey())
 		biz := userBusiness.NewLoginBiz(store, hasher, tokenProvider, 60*60*24*30)
 

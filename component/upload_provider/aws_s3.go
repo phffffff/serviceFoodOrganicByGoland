@@ -8,7 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
-	"go_service_food_organic/module/upload/image/model"
+	"go_service_food_organic/module/image/model"
 	"log"
 	"net/http"
 )
@@ -75,6 +75,25 @@ func (provider *s3Provider) SaveFileUploaded(c context.Context, data []byte, dst
 	}
 
 	return img, nil
+}
+
+func (provider *s3Provider) DeleteFileUpload(c context.Context, dst string) error {
+	svc := s3.New(provider.session)
+
+	_, err := svc.DeleteObject(&s3.DeleteObjectInput{
+		Bucket: aws.String(provider.bucketName),
+		Key:    aws.String(dst),
+	})
+	if err != nil {
+		return err
+	}
+	if err := svc.WaitUntilObjectNotExists(&s3.HeadObjectInput{
+		Bucket: aws.String(provider.bucketName),
+		Key:    aws.String(dst),
+	}); err != nil {
+		return err
+	}
+	return nil
 }
 
 func (provider *s3Provider) isObjectExists(dst string, svc *s3.S3) (bool, error) {

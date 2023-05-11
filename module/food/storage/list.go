@@ -13,7 +13,7 @@ func (sql *sqlModel) ListDataWithCondition(c context.Context, filter *foodModel.
 		return nil, common.ErrDB(err)
 	}
 	//Cần khai báo những food cho phép hiện
-	if filter.Status >= 0 {
+	if len(filter.Status) >= 0 {
 		db = db.Where("status in (?)", filter.Status)
 	}
 

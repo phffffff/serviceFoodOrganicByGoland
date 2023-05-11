@@ -22,7 +22,7 @@ func GinListFood(appctx appContext.AppContext) gin.HandlerFunc {
 			panic(err)
 		}
 
-		filter.Status = 1
+		filter.Status = []int{0, 1}
 
 		var paging common.Paging
 		if err := c.ShouldBind(&paging); err != nil {
@@ -37,6 +37,9 @@ func GinListFood(appctx appContext.AppContext) gin.HandlerFunc {
 		}
 		for i := range list {
 			list[i].Mark(false)
+			for _, item := range list[i].FoodImages {
+				item.Mark(false)
+			}
 		}
 
 		c.IndentedJSON(http.StatusOK, common.FullSuccessResponse(list, filter, paging))

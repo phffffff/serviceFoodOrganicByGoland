@@ -30,7 +30,9 @@ func GinUpdateUser(appCtx appContext.AppContext) gin.HandlerFunc {
 		}
 
 		db := appCtx.GetMyDBConnection()
-		hasher := hash.NewMd5Hash()
+		secretSalt := appCtx.GetSecretSaltHashImage()
+
+		hasher := hash.NewMd5Hash(secretSalt)
 		store := userStorage.NewSqlModel(db)
 		repo := userRepo.NewUpdatePassRepo(store, hasher, req)
 		biz := userBusiness.NewUpdatePassBiz(repo)

@@ -20,7 +20,7 @@ func GinListProfile(appCtx appContext.AppContext) gin.HandlerFunc {
 		if err := c.ShouldBind(&filter); err != nil {
 			panic(err)
 		}
-		filter.Status = 1
+		filter.Status = []int{0, 1}
 
 		var paging common.Paging
 		if err := c.ShouldBind(&paging); err != nil {
