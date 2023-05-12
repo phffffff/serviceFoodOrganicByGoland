@@ -66,10 +66,14 @@ func ErrorEmailOrPasswordInvalid(err error) *common.AppError {
 	return common.NewCustomError(err, MsgEmailOrPasswordInvalid, ErrEmailOrPasswordInvalid)
 }
 func ErrorRePassInvalid(err error) *common.AppError {
-	return common.NewCustomError(err, ErrRePassInvalid, MsgRePassInvalid)
+	return common.NewCustomError(err, MsgRePassInvalid, ErrRePassInvalid)
 }
 func ErrorNewPassInvalid(err error) *common.AppError {
-	return common.NewCustomError(err, ErrNewPassInvalid, MsgNewPassInvalid)
+	return common.NewCustomError(err, MsgNewPassInvalid, ErrNewPassInvalid)
+}
+
+func ErrorUserNoLogin(err error) *common.AppError {
+	return common.NewCustomError(err, MsgUserNoLogin, ErrUserNoLogin)
 }
 
 const (
@@ -83,4 +87,7 @@ const (
 
 	ErrNewPassInvalid = "ErrNewPassInvalid"
 	MsgNewPassInvalid = "new password invalid"
+
+	ErrUserNoLogin = "ErrUserNoLogin"
+	MsgUserNoLogin = "user no login"
 )

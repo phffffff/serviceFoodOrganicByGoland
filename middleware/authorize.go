@@ -54,8 +54,12 @@ func RequiredAuth(appCtx appContext.AppContext) gin.HandlerFunc {
 			panic(err)
 		}
 
-		if user.Status == 0 {
+		if user == nil {
 			panic(common.ErrEntityNotExists(userModel.EntityName, nil))
+		}
+
+		if user.Status == 0 {
+			panic(common.ErrEntityDeleted(userModel.EntityName, nil))
 		}
 
 		user.Mark(false)

@@ -63,9 +63,12 @@ func (sql *sqlModel) ListDataWithFilter(
 		paging.NextCursor = lastData.FakeId.String()
 	}
 
-	//for idx := range list {
-	//	list[idx].Image.Mark(false)
-	//}
+	for idx := range list {
+		list[idx].Foods.Mark(false)
+		for i := range list[idx].Foods.FoodImages {
+			list[idx].Foods.FoodImages[i].Mark(false)
+		}
+	}
 
 	return list, nil
 

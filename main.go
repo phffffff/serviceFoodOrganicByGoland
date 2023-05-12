@@ -5,6 +5,7 @@ import (
 	appContext "go_service_food_organic/component/app_context"
 	uploadProvider "go_service_food_organic/component/upload_provider"
 	"go_service_food_organic/middleware"
+	cartTransport "go_service_food_organic/module/carts/transport"
 	foodTransport "go_service_food_organic/module/food/transport"
 	imageTransport "go_service_food_organic/module/image/transport"
 	imageFoodTransport "go_service_food_organic/module/image_food/transport"
@@ -89,13 +90,21 @@ func main() {
 		}
 
 		{
-			order := admin.Group("order")
-			order.GET("/list", orderTransport.GinListOrder(appCtx))
+			cart := admin.Group("cart")
+			cart.GET("/create", cartTransport.GinCreateCart(appCtx))
+			cart.DELETE("/delete", cartTransport.GinDeleteCart(appCtx))
 		}
 
 		{
-			order := admin.Group("orderdetail")
-			order.GET("/list", orderDetailTransport.GinListOrderDetail(appCtx))
+			order := admin.Group("order")
+			order.GET("/list", orderTransport.GinListOrder(appCtx))
+			order.POST("/create", orderTransport.GinCreateOrder(appCtx))
+		}
+
+		{
+			orderDetail := admin.Group("orderdetail")
+			orderDetail.GET("/list", orderDetailTransport.GinListOrderDetail(appCtx))
+			orderDetail.POST("/create", orderDetailTransport.GinCreateOrderDetail(appCtx))
 		}
 	}
 	//user

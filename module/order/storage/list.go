@@ -26,6 +26,10 @@ func (sqlModel *sqlModel) ListDataWithFilter(
 		return nil, common.ErrDB(err)
 	}
 
+	for _, item := range moreKeys {
+		db.Preload(item)
+	}
+
 	if cursor := paging.FakeCursor; cursor != "" {
 
 		uid, err := common.FromBase58(cursor)
@@ -52,6 +56,15 @@ func (sqlModel *sqlModel) ListDataWithFilter(
 		lastData := list[len(list)-1]
 		lastData.Mark(false)
 		paging.NextCursor = lastData.FakeId.String()
+	}
+
+	//mark
+	for _, item := range list {
+		item.Users.Mark(false)
+		for _, od := range item.OrderDetails {
+			od.Mark(false)
+			od.Foods.Mark(false)
+		}
 	}
 
 	return list, nil

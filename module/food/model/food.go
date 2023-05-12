@@ -13,10 +13,10 @@ type Food struct {
 	Name            string                      `json:"name" gorm:"column:name;"`
 	Description     string                      `json:"description" gorm:"description;"`
 	Price           float32                     `json:"price" gorm:"column:price;"`
-	Count           int64                       `json:"count" gorm:"column:count;"`
+	Count           int                         `json:"count" gorm:"column:count;"`
 	BrandId         int                         `json:"-" gorm:"column:brand_id;"`
 	BrandFakeId     *common.UID                 `json:"brand_id" gorm:"-"`
-	FoodImages      []*imageFoodModel.ImageFood `json:"food_images" gorm:"foreignKey:FoodId;preload:false;"`
+	FoodImages      []*imageFoodModel.ImageFood `json:"food_images" gorm:"foreignKey:FoodId;references:Id;preload:false;"`
 }
 
 func (Food) TableName() string { return "foods" }

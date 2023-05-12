@@ -32,6 +32,8 @@ const (
 	OjbTypeImage       = 4
 	OjbTypeOrder       = 5
 	OjbTypeOrderDetail = 6
+
+	OjbTypeCart = 7
 )
 
 type Requester interface {

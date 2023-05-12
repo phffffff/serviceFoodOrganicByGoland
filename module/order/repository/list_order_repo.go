@@ -28,7 +28,7 @@ func (repo *listOrderRepo) ListOrderRepo(
 	filter *orderModel.Filter,
 	paging *common.Paging) ([]orderModel.Order, error) {
 
-	list, err := repo.store.ListDataWithFilter(c, filter, paging)
+	list, err := repo.store.ListDataWithFilter(c, filter, paging, "OrderDetails.Foods.FoodImages", "Users")
 	if err != nil || list == nil {
 		return nil, common.ErrCannotCRUDEntity(orderModel.EntityName, common.List, err)
 	}
