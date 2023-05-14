@@ -7,8 +7,7 @@ import (
 )
 
 func (sql *sqlModel) Create(c context.Context, data *orderModel.OrderCreate) error {
-	if err := sql.db.Table(orderModel.OrderCreate{}.TableName()).
-		Create(&data).Error; err != nil {
+	if err := sql.db.Table(orderModel.OrderCreate{}.TableName()).Create(&data).Error; err != nil {
 		return common.ErrDB(err)
 	}
 	return nil

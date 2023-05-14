@@ -16,6 +16,7 @@ type Order struct {
 	UserFakeId      *common.UID                     `json:"user_id" gorm:"-"`
 	Users           *userModel.User                 `json:"users" gorm:"preload:false;foreignKey:Id;references:UserId"`
 	TotalPrice      float32                         `json:"total_price" gorm:"column:total_price"`
+	State           string                          `json:"state" gorm:"column:state"`
 	OrderDetails    []*orderDetailModel.OrderDetail `json:"order_details" gorm:"preload:false;foreignKey:OrderId;references:Id"`
 }
 
@@ -43,3 +44,11 @@ func (OrderCreate) TableName() string { return Order{}.TableName() }
 func (oc *OrderCreate) Mark(isAdminOrOwner bool) {
 	oc.GetUID(common.OjbTypeOrder)
 }
+
+type OrderUpdate struct {
+	TotalPrice float32 `json:"total_price" gorm:"column:total_price"`
+	State      string  `json:"state" gorm:"column:state"`
+	Status     int     `json:"status" gorm:"column:status"`
+}
+
+func (OrderUpdate) TableName() string { return Order{}.TableName() }

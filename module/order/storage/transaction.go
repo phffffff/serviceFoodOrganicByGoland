@@ -1,13 +1,13 @@
-package imageFoodStorage
+package orderStorage
 
 import (
 	"go_service_food_organic/common"
-	imageFoodModel "go_service_food_organic/module/image_food/model"
+	orderModel "go_service_food_organic/module/order/model"
 	"gorm.io/gorm"
 )
 
 func (sql *sqlModel) BeginTransaction() error {
-	ts := sql.db.Table(imageFoodModel.ImageFood{}.TableName()).Begin()
+	ts := sql.db.Table(orderModel.OrderCreate{}.TableName()).Begin()
 	if err := ts.Error; err != nil {
 		return common.ErrDB(err)
 	}

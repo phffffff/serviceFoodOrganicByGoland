@@ -7,6 +7,9 @@ import (
 )
 
 func (sql *sqlModel) Create(c context.Context, data *orderDetailModel.OrderDetailCreate) error {
+	if sql.db == nil {
+		return common.ErrDB(nil)
+	}
 	if err := sql.db.Table(orderDetailModel.OrderDetail{}.TableName()).Create(data).Error; err != nil {
 		return common.ErrDB(err)
 	}

@@ -9,6 +9,9 @@ import (
 
 type CreateOrderDetailStore interface {
 	Create(c context.Context, data *orderDetailModel.OrderDetailCreate) error
+	BeginTransaction() error
+	RollbackTransaction() error
+	CommitTransaction() error
 }
 
 type FindFoodStore interface {

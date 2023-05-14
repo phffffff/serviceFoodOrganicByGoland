@@ -55,6 +55,8 @@ func (odc *OrderDetailCreate) Mark(isAdminOrOwner bool) {
 	odc.GetUID(common.OjbTypeOrderDetail)
 }
 
+func (OrderDetailCreate) TableName() string { return OrderDetail{}.TableName() }
+
 func ErrorQuantityInvalid(err error) *common.AppError {
 	return common.NewCustomError(err, MsgQuantityInvalid, ErrQuantityInvalid)
 }

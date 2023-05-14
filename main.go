@@ -11,6 +11,7 @@ import (
 	imageFoodTransport "go_service_food_organic/module/image_food/transport"
 	orderTransport "go_service_food_organic/module/order/transport"
 	orderDetailTransport "go_service_food_organic/module/order_detail/transport"
+	paymentTransport "go_service_food_organic/module/payment/transport"
 	profileTransport "go_service_food_organic/module/profile/transport"
 	userTransport "go_service_food_organic/module/user/transport"
 	"log"
@@ -106,6 +107,7 @@ func main() {
 			orderDetail.GET("/list", orderDetailTransport.GinListOrderDetail(appCtx))
 			orderDetail.POST("/create", orderDetailTransport.GinCreateOrderDetail(appCtx))
 		}
+
 	}
 	//user
 	{
@@ -125,6 +127,10 @@ func main() {
 	{
 		profile := rt.Group("profile", middleware.RequiredAuth(appCtx))
 		profile.PUT("update/:id", profileTransport.GinUpdateProfile(appCtx))
+	}
+
+	{
+		rt.POST("payment", middleware.RequiredAuth(appCtx), paymentTransport.GinPayment(appCtx))
 	}
 
 	rt.Run()

@@ -8,6 +8,9 @@ import (
 
 type CreateOrderStore interface {
 	Create(c context.Context, data *orderModel.OrderCreate) error
+	BeginTransaction() error
+	RollbackTransaction() error
+	CommitTransaction() error
 }
 type createOrderRepo struct {
 	store CreateOrderStore

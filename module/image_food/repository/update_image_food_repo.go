@@ -8,7 +8,7 @@ import (
 )
 
 type UpdateImageFoodStore interface {
-	DeleteImageFood(c context.Context, id int) error
+	Delete(c context.Context, id int) error
 	Create(c context.Context, data *imageFoodModel.ImageFoodCreate) error
 	FindDataWithCondition(c context.Context, cond map[string]interface{}) (*imageFoodModel.ImageFood, error)
 	BeginTransaction() error
@@ -56,7 +56,7 @@ func (repo *updateImageFoodRepo) UpdateImageFoodRepo(c context.Context, data *im
 		return common.ErrEntityDeleted(imageFoodModel.EntityName, nil)
 	}
 
-	if err := repo.store.DeleteImageFood(c, imf.Id); err != nil {
+	if err := repo.store.Delete(c, imf.Id); err != nil {
 		if err := repo.store.RollbackTransaction(); err != nil {
 			return common.ErrInternal(err)
 		}
