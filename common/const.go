@@ -5,11 +5,13 @@ const (
 
 	CurrentUser = "user"
 
-	Get    = "GET"
-	List   = "LIST"
-	Create = "CREATE"
-	Update = "UPDATE"
-	Delete = "DELETE"
+	Decrease = "-"
+	Increase = "+"
+	Get      = "GET"
+	List     = "LIST"
+	Create   = "CREATE"
+	Update   = "UPDATE"
+	Delete   = "DELETE"
 
 	MsgErrDb = "something went wrong with DB"
 	ErrDBKey = "DB_ERROR"
@@ -32,8 +34,9 @@ const (
 	OjbTypeImage       = 4
 	OjbTypeOrder       = 5
 	OjbTypeOrderDetail = 6
+	OjbTypeCategory    = 7
 
-	OjbTypeCart = 7
+	OjbTypeInfoFoodCategoy = 8
 )
 
 type Requester interface {

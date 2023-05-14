@@ -4,10 +4,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"go_service_food_organic/common"
 	appContext "go_service_food_organic/component/app_context"
-	cartBusiness "go_service_food_organic/module/carts/business"
-	cartModel "go_service_food_organic/module/carts/model"
-	cartRepo "go_service_food_organic/module/carts/repository"
-	cartStorage "go_service_food_organic/module/carts/storage"
+	cartBusiness "go_service_food_organic/module/cart/business"
+	cartModel "go_service_food_organic/module/cart/model"
+	cartRepo "go_service_food_organic/module/cart/repository"
+	cartStorage "go_service_food_organic/module/cart/storage"
 	"net/http"
 )
 
@@ -24,7 +24,7 @@ func GinCreateCart(appCtx appContext.AppContext) gin.HandlerFunc {
 			panic(err)
 		}
 
-		uid, err := common.FromBase58(*(cart.FoodFakeId))
+		uid, err := common.FromBase58(cart.FoodFakeId)
 		if err != nil {
 			panic(err)
 		}

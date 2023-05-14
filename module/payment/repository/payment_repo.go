@@ -3,7 +3,7 @@ package paymentRepo
 import (
 	"context"
 	"go_service_food_organic/common"
-	cartModel "go_service_food_organic/module/carts/model"
+	cartModel "go_service_food_organic/module/cart/model"
 	foodModel "go_service_food_organic/module/food/model"
 	orderModel "go_service_food_organic/module/order/model"
 	orderRepo "go_service_food_organic/module/order/repository"
@@ -13,7 +13,7 @@ import (
 )
 
 type ListCartStore interface {
-	ListDataWithCondition(c context.Context, filter *cartModel.Filter, paging *common.Paging) ([]cartModel.Cart, error)
+	ListDataWithCondition(c context.Context, filter *cartModel.Filter, paging *common.Paging) ([]cartModel.CartLst, error)
 }
 
 type FindFoodStore interface {
@@ -21,11 +21,11 @@ type FindFoodStore interface {
 }
 
 type UpdateOrderPriceRepo interface {
-	UpdateOrderPriceRepo(c context.Context, id int, data *orderModel.OrderUpdate) error
+	UpdateOrderPriceRepo(c context.Context, id int, price float32) error
 }
 
 type UpdateFoodCountRepo interface {
-	UpdateCountFoodRepo(c context.Context, count, id int) error
+	UpdateCountFoodRepo(c context.Context, count, id int, typeOf string) error
 }
 
 type DeleteCartWhenPayment interface {
@@ -162,16 +162,12 @@ func (repo *paymentRepo) PaymentRepo(c context.Context) error {
 			return common.ErrCannotCRUDEntity(orderDetailModel.EntityName, common.Create, err)
 		}
 
-		if err := repo.updateFoodCountRepo.UpdateCountFoodRepo(c, item.Quantity, item.FoodId); err != nil {
+		if err := repo.updateFoodCountRepo.UpdateCountFoodRepo(c, item.Quantity, item.FoodId, common.Decrease); err != nil {
 			return common.ErrInternal(err)
 		}
 
 		totalPrice += orderDetail.Price
 	}
-
-	var orderUpdate orderModel.OrderUpdate
-
-	orderUpdate.TotalPrice = totalPrice
 
 	if err := repo.storeOrder.CommitTransaction(); err != nil {
 		return common.ErrInternal(err)
@@ -179,7 +175,7 @@ func (repo *paymentRepo) PaymentRepo(c context.Context) error {
 	if err := repo.storeOrderDetail.CommitTransaction(); err != nil {
 		return common.ErrInternal(err)
 	}
-	if err := repo.updatePriceRepo.UpdateOrderPriceRepo(c, order.Id, &orderUpdate); err != nil {
+	if err := repo.updatePriceRepo.UpdateOrderPriceRepo(c, order.Id, totalPrice); err != nil {
 		return common.ErrInternal(err)
 	}
 	if err := repo.deleteCartWhenPayment.DeleteCartRepo(c); err != nil {

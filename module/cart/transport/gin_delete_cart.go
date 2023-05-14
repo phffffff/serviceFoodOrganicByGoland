@@ -4,9 +4,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"go_service_food_organic/common"
 	appContext "go_service_food_organic/component/app_context"
-	cartBusiness "go_service_food_organic/module/carts/business"
-	cartRepo "go_service_food_organic/module/carts/repository"
-	cartStorage "go_service_food_organic/module/carts/storage"
+	cartBusiness "go_service_food_organic/module/cart/business"
+	cartRepo "go_service_food_organic/module/cart/repository"
+	cartStorage "go_service_food_organic/module/cart/storage"
 	"net/http"
 )
 

@@ -3,7 +3,7 @@ package cartBusiness
 import (
 	"context"
 	"go_service_food_organic/common"
-	cartModel "go_service_food_organic/module/carts/model"
+	cartModel "go_service_food_organic/module/cart/model"
 )
 
 type CreateCartRepo interface {

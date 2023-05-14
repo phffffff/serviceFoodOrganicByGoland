@@ -8,6 +8,9 @@ import (
 
 const (
 	EntityName = "Order"
+
+	StateCancel     = "cancel"
+	StateProcessing = "processing"
 )
 
 type Order struct {

@@ -5,7 +5,8 @@ import (
 	appContext "go_service_food_organic/component/app_context"
 	uploadProvider "go_service_food_organic/component/upload_provider"
 	"go_service_food_organic/middleware"
-	cartTransport "go_service_food_organic/module/carts/transport"
+	cartTransport "go_service_food_organic/module/cart/transport"
+	categoryTransport "go_service_food_organic/module/category/transport"
 	foodTransport "go_service_food_organic/module/food/transport"
 	imageTransport "go_service_food_organic/module/image/transport"
 	imageFoodTransport "go_service_food_organic/module/image_food/transport"
@@ -100,12 +101,19 @@ func main() {
 			order := admin.Group("order")
 			order.GET("/list", orderTransport.GinListOrder(appCtx))
 			order.POST("/create", orderTransport.GinCreateOrder(appCtx))
+			order.POST("/update-state/:id", orderTransport.GinUpdateOrderState(appCtx))
 		}
 
 		{
 			orderDetail := admin.Group("orderdetail")
 			orderDetail.GET("/list", orderDetailTransport.GinListOrderDetail(appCtx))
 			orderDetail.POST("/create", orderDetailTransport.GinCreateOrderDetail(appCtx))
+		}
+
+		{
+			category := admin.Group("category")
+			category.GET("/list", categoryTransport.GinListCategory(appCtx))
+			category.POST("/create", categoryTransport.GinCreateCategory(appCtx))
 		}
 
 	}
@@ -131,6 +139,16 @@ func main() {
 
 	{
 		rt.POST("payment", middleware.RequiredAuth(appCtx), paymentTransport.GinPayment(appCtx))
+	}
+
+	{
+		cart := rt.Group("cart", middleware.RequiredAuth(appCtx))
+		cart.GET("/list", cartTransport.GinListCart(appCtx))
+	}
+
+	{
+		category := rt.Group("category")
+		category.GET("/list", categoryTransport.GinListCategory(appCtx))
 	}
 
 	rt.Run()

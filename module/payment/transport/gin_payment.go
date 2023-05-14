@@ -4,8 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"go_service_food_organic/common"
 	appContext "go_service_food_organic/component/app_context"
-	cartRepo "go_service_food_organic/module/carts/repository"
-	cartStorage "go_service_food_organic/module/carts/storage"
+	cartRepo "go_service_food_organic/module/cart/repository"
+	cartStorage "go_service_food_organic/module/cart/storage"
 	foodRepo "go_service_food_organic/module/food/repository"
 	foodStorage "go_service_food_organic/module/food/storage"
 	orderRepo "go_service_food_organic/module/order/repository"
@@ -28,8 +28,10 @@ func GinPayment(appCtx appContext.AppContext) gin.HandlerFunc {
 		storeOrderUpdate := orderStorage.NewSqlModel(db)
 		storeFoodUpdate := foodStorage.NewSqlModel(db)
 		storeOrderDetail := orderDetailStorage.NewSqlModel(db)
+
 		updateOrderPriceRepo := orderRepo.NewUpdateOrderPriceRepo(storeOrderUpdate)
 		updateFoodCountRepo := foodRepo.NewUpdateFoodCountRepo(storeFoodUpdate)
+
 		deleteCartWhenRepo := cartRepo.NewDeleteCartRepo(storeCart, req)
 
 		repo := paymentRepo.NewPaymentRepo(

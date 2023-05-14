@@ -16,6 +16,12 @@ func (sql *sqlModel) FindDataWithCondition(
 		return nil, common.ErrDB(err)
 	}
 
+	if len(moreKeys) > 0 {
+		for _, item := range moreKeys {
+			db.Preload(item)
+		}
+	}
+
 	var data orderModel.Order
 	if err := db.Where(cond).First(&data).Error; err != nil {
 		return nil, common.ErrDB(err)

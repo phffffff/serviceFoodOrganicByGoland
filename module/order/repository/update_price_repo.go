@@ -4,12 +4,11 @@ import (
 	"context"
 	"go_service_food_organic/common"
 	orderModel "go_service_food_organic/module/order/model"
-	"reflect"
 )
 
 type UpdateOrderPriceStore interface {
-	FindDataWithCondition(c context.Context, cond map[string]interface{}, oreKeys ...string) (*orderModel.Order, error)
-	Update(c context.Context, id int, data *orderModel.Order) error
+	FindDataWithCondition(c context.Context, cond map[string]interface{}, moreKeys ...string) (*orderModel.Order, error)
+	UpdatePrice(c context.Context, id int, price float32) error
 }
 
 type updateOrderPriceRepo struct {
@@ -23,7 +22,7 @@ func NewUpdateOrderPriceRepo(store UpdateOrderPriceStore) *updateOrderPriceRepo 
 func (repo *updateOrderPriceRepo) UpdateOrderPriceRepo(
 	c context.Context,
 	id int,
-	data *orderModel.OrderUpdate) error {
+	price float32) error {
 
 	order, err := repo.store.FindDataWithCondition(c, map[string]interface{}{"id": id})
 	if err != nil {
@@ -35,22 +34,11 @@ func (repo *updateOrderPriceRepo) UpdateOrderPriceRepo(
 	if order.Status == 0 {
 		return common.ErrEntityDeleted(orderModel.EntityName, nil)
 	}
-	if order.State != "processing" {
+	if order.State != orderModel.StateProcessing {
 		return common.ErrInternal(nil)
 	}
 
-	val := reflect.ValueOf(data).Elem()
-
-	for i := 0; i < val.NumField(); i++ {
-		field := val.Type().Field(i)
-		value := val.Field(i).Interface()
-
-		if value != "" {
-			reflect.ValueOf(order).Elem().FieldByName(field.Name).Set(reflect.ValueOf(value))
-		}
-	}
-
-	if err := repo.store.Update(c, order.Id, order); err != nil {
+	if err := repo.store.UpdatePrice(c, order.Id, price); err != nil {
 		return common.ErrCannotCRUDEntity(orderModel.EntityName, common.Update, err)
 	}
 	return nil
