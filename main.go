@@ -10,6 +10,7 @@ import (
 	foodTransport "go_service_food_organic/module/food/transport"
 	imageTransport "go_service_food_organic/module/image/transport"
 	imageFoodTransport "go_service_food_organic/module/image_food/transport"
+	infoFoodcategoryTransport "go_service_food_organic/module/info_food_category/transport"
 	orderTransport "go_service_food_organic/module/order/transport"
 	orderDetailTransport "go_service_food_organic/module/order_detail/transport"
 	paymentTransport "go_service_food_organic/module/payment/transport"
@@ -114,6 +115,16 @@ func main() {
 			category := admin.Group("category")
 			category.GET("/list", categoryTransport.GinListCategory(appCtx))
 			category.POST("/create", categoryTransport.GinCreateCategory(appCtx))
+			category.DELETE("/delete/:id", categoryTransport.GinDeleteCategory(appCtx))
+			category.POST("/update/:id", categoryTransport.GinUpdateCategory(appCtx))
+		}
+
+		{
+			infoFoodCategory := admin.Group("infoFoodCategory")
+			infoFoodCategory.GET("/list", infoFoodcategoryTransport.GinListInfoFoodCategory(appCtx))
+			infoFoodCategory.POST("/create", infoFoodcategoryTransport.GinCreateInfoFoodCategory(appCtx))
+			infoFoodCategory.DELETE("/delete/:id", infoFoodcategoryTransport.GinDeleteInfoFoodCategory(appCtx))
+			infoFoodCategory.POST("/update/:id", infoFoodcategoryTransport.GinUpdateInfoFoodCategory(appCtx))
 		}
 
 	}

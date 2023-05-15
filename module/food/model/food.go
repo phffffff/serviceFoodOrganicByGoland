@@ -50,11 +50,12 @@ func (FoodCreate) TableName() string { return Food{}.TableName() }
 
 type FoodUpdate struct {
 	Name        string  `json:"name" gorm:"column:name;"`
-	Description string  `json:"description" gorm:"description;"`
+	Description string  `json:"description" gorm:"column:description;"`
 	Price       float32 `json:"price" gorm:"column:price;"`
-	Count       int64   `json:"count" gorm:"column:count;"`
+	Count       int     `json:"count" gorm:"column:count;"`
 	BrandId     int     `json:"-" gorm:"column:brand_id;"`
 	BrandFakeId string  `json:"brand_id" gorm:"-"`
+	Status      int     `json:"status" gorm:"column:status"`
 }
 
 func (FoodUpdate) TableName() string { return Food{}.TableName() }
