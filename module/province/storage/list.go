@@ -1,20 +1,19 @@
-package profileStorage
+package provinceStorage
 
 import (
 	"context"
 	"go_service_food_organic/common"
-	profileModel "go_service_food_organic/module/profile/model"
+	provinceModel "go_service_food_organic/module/province/model"
 )
 
 func (sql *sqlModel) ListDataWithFilter(
 	c context.Context,
-	filter *profileModel.Filter,
-	paging *common.Paging,
-	moreKeys ...string) ([]profileModel.Profile, error) {
+	filter *provinceModel.Filter,
+	paging *common.Paging) ([]provinceModel.Province, error) {
 
-	var list []profileModel.Profile
+	var list []provinceModel.Province
 
-	db := sql.db.Table(profileModel.Profile{}.TableName())
+	db := sql.db.Table(provinceModel.Province{}.TableName())
 
 	if err := db.Error; err != nil {
 		return nil, common.ErrDB(err)
@@ -46,10 +45,6 @@ func (sql *sqlModel) ListDataWithFilter(
 		db = db.Offset(offset)
 	}
 
-	for _, item := range moreKeys {
-		db = db.Preload(item)
-	}
-
 	if err := db.
 		Limit(paging.Limit).
 		Order("id desc").
@@ -59,12 +54,8 @@ func (sql *sqlModel) ListDataWithFilter(
 
 	if len(list) > 0 {
 		lastData := list[len(list)-1]
-		lastData.Mark(false)
+		lastData.Mask(false)
 		paging.NextCursor = lastData.FakeId.String()
-	}
-
-	for idx := range list {
-		list[idx].Image.Mark(false)
 	}
 
 	return list, nil

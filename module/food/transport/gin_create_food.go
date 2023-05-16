@@ -20,7 +20,8 @@ func GinCreateFood(appCtx appContext.AppContext) gin.HandlerFunc {
 
 		db := appCtx.GetMyDBConnection()
 		store := foodStorage.NewSqlModel(db)
-		biz := foodBusiness.NewCreateFoodBiz(store)
+		req := c.MustGet(common.CurrentUser).(common.Requester)
+		biz := foodBusiness.NewCreateFoodBiz(store, req)
 
 		if err := biz.CreateFood(c.Request.Context(), &data); err != nil {
 			panic(err)

@@ -12,7 +12,7 @@ const (
 type Category struct {
 	common.SQLModel `json:",inline"`
 	Name            string            `json:"name" gorm:"column:name"`
-	Description     string            `json:"description" gorm:"description"`
+	Description     string            `json:"description" gorm:"column:description"`
 	Icon            string            `json:"icon" gorm:"column:icon"`
 	Foods           []*foodModel.Food `json:"foods" gorm:"many2many:info_food_categories;foreignKey:Id;joinForeignKey:CategoryId;References:Id;joinReferences:FoodId"`
 }

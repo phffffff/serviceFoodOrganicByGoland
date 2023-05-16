@@ -12,10 +12,11 @@ type CreateFoodStore interface {
 
 type createFoodBiz struct {
 	store CreateFoodStore
+	req   common.Requester
 }
 
-func NewCreateFoodBiz(store CreateFoodStore) *createFoodBiz {
-	return &createFoodBiz{store: store}
+func NewCreateFoodBiz(store CreateFoodStore, req common.Requester) *createFoodBiz {
+	return &createFoodBiz{store: store, req: req}
 }
 
 func (biz *createFoodBiz) CreateFood(c context.Context, data *foodModel.FoodCreate) error {

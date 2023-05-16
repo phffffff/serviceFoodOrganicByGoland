@@ -5,6 +5,7 @@ import (
 	appContext "go_service_food_organic/component/app_context"
 	uploadProvider "go_service_food_organic/component/upload_provider"
 	"go_service_food_organic/middleware"
+	brandTransport "go_service_food_organic/module/brand/transport"
 	cartTransport "go_service_food_organic/module/cart/transport"
 	categoryTransport "go_service_food_organic/module/category/transport"
 	foodTransport "go_service_food_organic/module/food/transport"
@@ -15,6 +16,7 @@ import (
 	orderDetailTransport "go_service_food_organic/module/order_detail/transport"
 	paymentTransport "go_service_food_organic/module/payment/transport"
 	profileTransport "go_service_food_organic/module/profile/transport"
+	provinceTransport "go_service_food_organic/module/province/transport"
 	userTransport "go_service_food_organic/module/user/transport"
 	"log"
 	"os"
@@ -76,6 +78,7 @@ func main() {
 			food.GET("/listfood", foodTransport.GinListFood(appCtx))
 			food.POST("/updatefood/:id", foodTransport.GinUpdateFood(appCtx))
 			food.POST("/createfood", foodTransport.GinCreateFood(appCtx))
+			food.POST("/create-food-with-category/:categoryId", foodTransport.GinCreateFoodAndInfo(appCtx))
 			food.DELETE("/deletefood/:id", foodTransport.GinDeleteFood(appCtx))
 		}
 
@@ -127,6 +130,14 @@ func main() {
 			infoFoodCategory.POST("/update/:id", infoFoodcategoryTransport.GinUpdateInfoFoodCategory(appCtx))
 		}
 
+		{
+			brand := admin.Group("brand")
+			brand.GET("/list", brandTransport.GinListBrand(appCtx))
+			brand.POST("/create", brandTransport.GinCreateBrand(appCtx))
+			brand.DELETE("/delete/:id", brandTransport.GinDeleteBrand(appCtx))
+			brand.POST("/update/:id", brandTransport.GinUpdateBrand(appCtx))
+		}
+
 	}
 	//user
 	{
@@ -160,6 +171,11 @@ func main() {
 	{
 		category := rt.Group("category")
 		category.GET("/list", categoryTransport.GinListCategory(appCtx))
+	}
+
+	{
+		province := rt.Group("province")
+		province.GET("/list", provinceTransport.GinListProvince(appCtx))
 	}
 
 	rt.Run()

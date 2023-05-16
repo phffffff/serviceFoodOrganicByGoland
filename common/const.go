@@ -28,15 +28,15 @@ const (
 	MsgCannotRollback = "can not roll back"
 	ErrCannotRollback = "ErrCannotRollback"
 
-	OjbTypeUser        = 1
-	OjbTypeFood        = 2
-	OjbTypeProfile     = 3
-	OjbTypeImage       = 4
-	OjbTypeOrder       = 5
-	OjbTypeOrderDetail = 6
-	OjbTypeCategory    = 7
-
+	OjbTypeUser            = 1
+	OjbTypeFood            = 2
+	OjbTypeProfile         = 3
+	OjbTypeImage           = 4
+	OjbTypeOrder           = 5
+	OjbTypeOrderDetail     = 6
+	OjbTypeCategory        = 7
 	OjbTypeInfoFoodCategoy = 8
+	OjbTypeProvinces       = 9
 )
 
 type Requester interface {

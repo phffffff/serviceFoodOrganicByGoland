@@ -36,6 +36,7 @@ func GinUpdateFood(appCtx appContext.AppContext) gin.HandlerFunc {
 		}
 
 		data.BrandId = int(brandUid.GetLocalID())
+		data.BrandFakeId = ""
 
 		if err := biz.UpdateFood(c.Request.Context(), &data, id); err != nil {
 			panic(err)
