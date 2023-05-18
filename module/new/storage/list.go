@@ -1,27 +1,24 @@
-package profileStorage
+package newStorage
 
 import (
 	"context"
 	"go_service_food_organic/common"
-	profileModel "go_service_food_organic/module/profile/model"
+	newModel "go_service_food_organic/module/new/model"
 )
 
-func (sql *sqlModel) ListDataWithFilter(
-	c context.Context,
-	filter *profileModel.Filter,
-	paging *common.Paging,
-	moreKeys ...string) ([]profileModel.Profile, error) {
-
-	var list []profileModel.Profile
-
-	db := sql.db.Table(profileModel.Profile{}.TableName())
-
+func (sql *sqlModel) ListDataWithCondition(c context.Context, filter *newModel.Filter, paging *common.Paging) ([]newModel.New, error) {
+	var list []newModel.New
+	db := sql.db.Table(newModel.New{}.TableName())
 	if err := db.Error; err != nil {
 		return nil, common.ErrDB(err)
 	}
-
-	if len(filter.Status) >= 0 {
+	//Cần khai báo những food cho phép hiện
+	if len(filter.Status) > 0 {
 		db = db.Where("status in (?)", filter.Status)
+	}
+
+	if filter.Author > 0 {
+		db = db.Where("author = (?)", filter.Author)
 	}
 
 	if err := db.Count(&paging.Total).Error; err != nil {
@@ -29,39 +26,31 @@ func (sql *sqlModel) ListDataWithFilter(
 	}
 
 	if cursor := paging.FakeCursor; cursor != "" {
-
+		//id, err := strconv.Atoi(cursor)
 		uid, err := common.FromBase58(cursor)
-
 		if err != nil {
 			return nil, common.ErrInternal(err)
 		}
 		id := int(uid.GetLocalID())
 
-		db = db.Where("id < (?)", id)
-		if err := db.Error; err != nil {
+		if err != nil {
 			return nil, common.ErrInternal(err)
 		}
+		db = db.Where("id < (?)", id)
 	} else {
 		offset := (paging.Page - 1) * paging.Limit
 		db = db.Offset(offset)
-	}
 
-	for _, item := range moreKeys {
-		db = db.Preload(item)
 	}
-
-	if err := db.
-		Limit(paging.Limit).
-		Order("id desc").
-		Find(&list).Error; err != nil {
+	if err := db.Limit(paging.Limit).Order("id DESC").Find(&list).Error; err != nil {
 		return nil, common.ErrDB(err)
 	}
-
 	if len(list) > 0 {
 		lastData := list[len(list)-1]
-		lastData.Mark(false)
+		lastData.Mask(false)
 		paging.NextCursor = lastData.FakeId.String()
 	}
 
 	return list, nil
+
 }

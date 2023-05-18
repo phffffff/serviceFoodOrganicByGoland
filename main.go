@@ -5,13 +5,17 @@ import (
 	appContext "go_service_food_organic/component/app_context"
 	uploadProvider "go_service_food_organic/component/upload_provider"
 	"go_service_food_organic/middleware"
+	aboutTransport "go_service_food_organic/module/about/transport"
+	addressTransport "go_service_food_organic/module/address/transport"
 	brandTransport "go_service_food_organic/module/brand/transport"
 	cartTransport "go_service_food_organic/module/cart/transport"
 	categoryTransport "go_service_food_organic/module/category/transport"
+	commentTransport "go_service_food_organic/module/comment/transport"
 	foodTransport "go_service_food_organic/module/food/transport"
 	imageTransport "go_service_food_organic/module/image/transport"
 	imageFoodTransport "go_service_food_organic/module/image_food/transport"
 	infoFoodcategoryTransport "go_service_food_organic/module/info_food_category/transport"
+	newTransport "go_service_food_organic/module/new/transport"
 	orderTransport "go_service_food_organic/module/order/transport"
 	orderDetailTransport "go_service_food_organic/module/order_detail/transport"
 	paymentTransport "go_service_food_organic/module/payment/transport"
@@ -138,25 +142,73 @@ func main() {
 			brand.POST("/update/:id", brandTransport.GinUpdateBrand(appCtx))
 		}
 
+		{
+			about := admin.Group("about")
+			about.GET("list", aboutTransport.GinListAbout(appCtx))
+			about.POST("create", aboutTransport.GinCreateAbout(appCtx))
+			about.POST("update/:id", aboutTransport.GinUpdateAbout(appCtx))
+			about.DELETE("delete/:id", aboutTransport.GinDeleteAbout(appCtx))
+		}
+
+		{
+			address := admin.Group("address")
+			address.GET("list", addressTransport.GinListAddress(appCtx))
+			address.POST("create", addressTransport.GinCreateAddress(appCtx))
+			address.PUT("update/:id", addressTransport.GinUpdateAddress(appCtx))
+			address.DELETE("delete/:id", addressTransport.GinDeleteAddress(appCtx))
+		}
+
+		{
+			news := admin.Group("new")
+			news.GET("list", newTransport.GinListNew(appCtx))
+			news.POST("create", newTransport.GinCreateNew(appCtx))
+			news.PUT("update/:id", newTransport.GinUpdateNew(appCtx))
+			news.DELETE("delete/:id", newTransport.GinDeleteNew(appCtx))
+		}
+
+		{
+			cmt := admin.Group("comment")
+			cmt.GET("list", commentTransport.GinListCmt(appCtx))
+			cmt.DELETE("delete/:id", commentTransport.GinDeleteCmt(appCtx))
+		}
 	}
 	//user
 	{
 		user := rt.Group("user")
 		user.POST("register", userTransport.GinRegister(appCtx))
 		user.POST("authenticate", userTransport.GinLogin(appCtx))
-		user.DELETE("delete/:id",
-			middleware.RequiredAuth(appCtx),
-			userTransport.GinDeleteUser(appCtx),
-		)
-		user.PATCH("update-pass/:id",
-			middleware.RequiredAuth(appCtx),
-			userTransport.GinUpdateUser(appCtx),
-		)
+		user.DELETE("delete/:id", middleware.RequiredAuth(appCtx), userTransport.GinDeleteUser(appCtx))
+		user.PATCH("update-pass/:id", middleware.RequiredAuth(appCtx), userTransport.GinUpdateUser(appCtx))
 	}
 
 	{
 		profile := rt.Group("profile", middleware.RequiredAuth(appCtx))
 		profile.PUT("update/:id", profileTransport.GinUpdateProfile(appCtx))
+
+		{
+			address := profile.Group("address")
+			address.GET("list", addressTransport.GinListAddress(appCtx))
+			address.POST("create", addressTransport.GinCreateAddress(appCtx))
+			address.PUT("update/:id", addressTransport.GinUpdateAddress(appCtx))
+			address.DELETE("delete/:id", addressTransport.GinDeleteAddress(appCtx))
+		}
+
+		{
+			news := profile.Group("new")
+			news.GET("list", newTransport.GinListNew(appCtx))
+			news.POST("create", newTransport.GinCreateNew(appCtx))
+			news.PUT("update/:id", newTransport.GinUpdateNew(appCtx))
+			news.DELETE("delete/:id", newTransport.GinDeleteNew(appCtx))
+
+			{
+				cmt := news.Group("/:new_id/comment")
+				cmt.GET("list", commentTransport.GinListCmt(appCtx))
+				cmt.POST("create", commentTransport.GinCreateCmt(appCtx))
+				cmt.PUT("update/:id", commentTransport.GinUpdateCmt(appCtx))
+				cmt.DELETE("delete/:id", commentTransport.GinDeleteCmt(appCtx))
+			}
+		}
+
 	}
 
 	{

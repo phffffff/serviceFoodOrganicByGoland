@@ -1,22 +1,22 @@
-package provinceTransport
+package addressTransport
 
 import (
 	"github.com/gin-gonic/gin"
 	"go_service_food_organic/common"
 	appContext "go_service_food_organic/component/app_context"
-	provinceBusiness "go_service_food_organic/module/province/business"
-	provinceModel "go_service_food_organic/module/province/model"
-	provinceStorage "go_service_food_organic/module/province/storage"
+	addressBusiness "go_service_food_organic/module/address/business"
+	addressModel "go_service_food_organic/module/address/model"
+	addressStorage "go_service_food_organic/module/address/storage"
 	"net/http"
 )
 
-func GinListProvince(appCtx appContext.AppContext) gin.HandlerFunc {
+func GinListAddress(appCtx appContext.AppContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		db := appCtx.GetMyDBConnection()
-		store := provinceStorage.NewSqlModel(db)
-		biz := provinceBusiness.NewListProvinceBiz(store)
+		store := addressStorage.NewSqlModel(db)
+		biz := addressBusiness.NewlistAddressBiz(store)
 
-		var filter provinceModel.Filter
+		var filter addressModel.Filter
 		if err := c.ShouldBind(&filter); err != nil {
 			panic(err)
 		}
@@ -27,13 +27,14 @@ func GinListProvince(appCtx appContext.AppContext) gin.HandlerFunc {
 		}
 		paging.FullFill()
 
-		list, err := biz.ListProvince(c.Request.Context(), &filter, &paging)
+		list, err := biz.ListAddress(c.Request.Context(), &filter, &paging)
 		if err != nil {
 			panic(err)
 		}
 
 		for i := range list {
 			list[i].Mask(false)
+			list[i].Provinces.Mask(false)
 		}
 
 		c.IndentedJSON(http.StatusOK, common.FullSuccessResponse(list, filter, paging))

@@ -2,10 +2,15 @@ package profileModel
 
 import (
 	"go_service_food_organic/common"
-	"go_service_food_organic/module/image/model"
+	imageModel "go_service_food_organic/module/image/model"
 )
 
-const EntityName = "Profile"
+const (
+	EntityName = "Profile"
+
+	ErrProfileIdNotSame = "ErrProfileIdNotSame"
+	MsgProfileIdNotSame = " profile id and profile's user not same"
+)
 
 type ProfileRegister struct {
 	common.SQLModel
@@ -31,7 +36,7 @@ type Profile struct {
 	UserId       int                      `json:"-" gorm:"column:user_id;"`
 	AvatarId     int                      `json:"-" gorm:"column:avatar_id;"`
 	AvatarFakeId *common.UID              `json:"avatar_id" gorm:"-"`
-	Image        *imageModel.ImageProfile `json:"image" gorm:"preload:false;foreignKey:AvatarId;"`
+	Image        *imageModel.ImageProfile `json:"image" gorm:"preload:false;foreignKey:Id;references:AvatarId;"`
 }
 
 func (Profile) TableName() string { return ProfileRegister{}.TableName() }
@@ -56,3 +61,7 @@ type ProfileUpdate struct {
 }
 
 func (ProfileUpdate) TableName() string { return ProfileUpdate{}.TableName() }
+
+func ErrorProfileIdNotSame(err error) *common.AppError {
+	return common.NewCustomError(err, MsgProfileIdNotSame, ErrProfileIdNotSame)
+}

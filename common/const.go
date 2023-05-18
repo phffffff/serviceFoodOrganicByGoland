@@ -37,6 +37,11 @@ const (
 	OjbTypeCategory        = 7
 	OjbTypeInfoFoodCategoy = 8
 	OjbTypeProvinces       = 9
+	OjbTypeAddress         = 10
+	OjbTypeAbout           = 11
+
+	OjbTypeNew     = 12
+	OjbTypeComment = 13
 )
 
 type Requester interface {

@@ -1,22 +1,22 @@
-package provinceTransport
+package aboutTransport
 
 import (
 	"github.com/gin-gonic/gin"
 	"go_service_food_organic/common"
 	appContext "go_service_food_organic/component/app_context"
-	provinceBusiness "go_service_food_organic/module/province/business"
-	provinceModel "go_service_food_organic/module/province/model"
-	provinceStorage "go_service_food_organic/module/province/storage"
+	aboutBusiness "go_service_food_organic/module/about/business"
+	aboutModel "go_service_food_organic/module/about/model"
+	aboutStorage "go_service_food_organic/module/about/storage"
 	"net/http"
 )
 
-func GinListProvince(appCtx appContext.AppContext) gin.HandlerFunc {
+func GinListAbout(appCtx appContext.AppContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		db := appCtx.GetMyDBConnection()
-		store := provinceStorage.NewSqlModel(db)
-		biz := provinceBusiness.NewListProvinceBiz(store)
+		store := aboutStorage.NewSqlModel(db)
+		biz := aboutBusiness.NewlistAboutBiz(store)
 
-		var filter provinceModel.Filter
+		var filter aboutModel.Filter
 		if err := c.ShouldBind(&filter); err != nil {
 			panic(err)
 		}
@@ -27,7 +27,7 @@ func GinListProvince(appCtx appContext.AppContext) gin.HandlerFunc {
 		}
 		paging.FullFill()
 
-		list, err := biz.ListProvince(c.Request.Context(), &filter, &paging)
+		list, err := biz.ListAbout(c.Request.Context(), &filter, &paging)
 		if err != nil {
 			panic(err)
 		}
