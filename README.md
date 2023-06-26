@@ -3,6 +3,7 @@ Xây dựng server hệ thống quản lý thực phẩm organic
 
 Công nghệ
 - Ngôn ngữ: Golang
+- Kiến trúc: Clean architecture
 - Hệ quản trị cơ sở dữ liệu: MySql
 - Framework/Other: 
   + GinGonic
