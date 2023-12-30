@@ -21,3 +21,4 @@ Chức năng:
     + Đăng nhập(JWT)/đăng ký, xóa tài khoản, cập nhật thông tin profile(upload/update avatar), cập nhật nhiều địa chỉ giao hàng
     + Viết bài viết, bình luận bài viết
     + Mua hàng, thanh toán
+  - Lưu trữ ảnh trên S3
