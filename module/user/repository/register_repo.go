@@ -46,10 +46,6 @@ func (repo *registerRepo) RegisterRepo(c context.Context, data *userModel.UserRe
 		return common.ErrEntityExists(userModel.EntityName, err)
 	}
 
-	if data.Password != data.RePassword {
-		return userModel.ErrorRePassInvalid(nil)
-	}
-
 	salt := common.GetSalt(50)
 	data.Password = repo.hasher.Hash(data.Password + salt)
 	data.Salt = salt

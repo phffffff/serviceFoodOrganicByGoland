@@ -1,0 +1,230 @@
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(50) NOT NULL,
+  `fb_id` varchar(50) DEFAULT NULL,
+  `gg_id` varchar(50) DEFAULT NULL,
+  `password` varchar(50) NOT NULL,
+  `salt` varchar(50) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `role` enum('user','admin') NOT NULL DEFAULT 'user',
+  `status` int NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `profiles`;
+CREATE TABLE `profiles` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULl,
+  `email` varchar(50) NOT NULL,
+  `fb_id` varchar(50) DEFAULT NULL,
+  `gg_id` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `avatar_id` int,
+  `status` int NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`),
+  KEY `user_id` (`user_id`) USING BTREE,
+  KEY `avatar_id` (`avatar_id`) USING BTREE
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `foods`;
+CREATE TABLE `foods` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `price` float NOT NULL,
+  `count` int NOT NULL,
+  `status` int NOT NULL DEFAULT '1',
+  `brand_id` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `brand_id` (`brand_id`) USING BTREE,
+  KEY `count` (`count`) USING BTREE
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `categories`;
+CREATE TABLE `categories` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `description` text,
+  `icon` varchar(100) DEFAULT NULL,
+  `status` int NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `provinces`;
+CREATE TABLE `provinces` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `status` int NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`) USING BTREE,
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `user_addresses`;
+CREATE TABLE `user_addresses` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `profile_id` int NOT NULL,
+  `province_id` int NOT NULL,
+  `addr` varchar(255) NOT NULL,
+  `title` varchar(100) NULL,
+  `status` int NOT NULL DEFAULT '1',
+  `is_default` enum('true','false') NOT NULL DEFAULT 'false',
+  `zip_id` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `profile_id` (`profile_id`) USING BTREE,
+  KEY `province_id` (`province_id`) USING BTREE,
+  KEY `zip_id` (`zip_id`) USING BTREE
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `news`;
+CREATE TABLE `news` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `author` int NOT NULL,
+  `content` text NOT NULL,
+  `tag` text,
+  `title` varchar(255) NOT NULL,
+  `image` varchar(255),
+  `state` enum('approved','pending','rejected') NOT NULL DEFAULT 'approved',
+  `status` int NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `author` (`author`) USING BTREE,
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `images`;
+CREATE TABLE `images` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `url` varchar(100) NOT NULL,
+  `hash_value` varchar(100) NOT NULL,
+  `height` int NOT NULL,
+  `width` int NOT NULL,
+  `type` enum('food','profile','category') NOT NULL DEFAULT 'food',
+  `status` int NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `image_foods`;
+CREATE TABLE `image_foods` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `image_id` int NOT NULL,
+  `food_id` int NOT NULL,
+  `type` enum('thumbnail','detail') NOT NULL DEFAULT 'thumbnail',
+  `status` int NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `image_id` (`image_id`) USING BTREE,
+  KEY `food_id` (`food_id`) USING BTREE
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `info_food_categories`;
+CREATE TABLE `info_food_categories` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `category_id` int NOT NULL,
+  `food_id` int NOT NULL,
+  `status` int NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `category_id` (`category_id`) USING BTREE,
+  KEY `food_id` (`food_id`) USING BTREE
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE `orders` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `total_price` float NOT NULL,
+  `state` enum('processing','shipping','delivered','cancel') NOT NULL DEFAULT 'processing',
+  `status` int NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id` ) USING BTREE,
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `order_details`;
+CREATE TABLE `order_details` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `food_id` int NOT NULL,
+  `order_id` int NOT NULL,
+  `price` float NOT NULL,
+  `quantity` int NOT NULL,
+  `status` int NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `order_id` (`order_id`) USING BTREE,
+  KEY `food_id` (`food_id`) USING BTREE
+) ENGINE=InnoDB;
+
+
+DROP TABLE IF EXISTS `comments`;
+CREATE TABLE `comments` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `profile_id` int NOT NULL,
+  `new_id` int NOT NULL,
+  `content` text NOT NULL,
+  `status` int NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `profile_id` (`profile_id`) USING BTREE,
+  KEY `new_id` (`new_id`) USING BTREE
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `brands`;
+CREATE TABLE `brands` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `logo` varchar(100) NOT NULL,
+  `description` text NOT NULL,
+  `status` int NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `carts`;
+CREATE TABLE `carts` (
+  `user_id` int NOT NULL,
+  `food_id` int NOT NULL,
+  `quantity` int NOT NULL,
+  `price` float NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`,`food_id`)
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `about_us`;
+CREATE TABLE `about_us` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `description` text NOT NULL
+  `logo` varchar(100) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `status` int NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+

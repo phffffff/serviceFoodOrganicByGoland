@@ -45,6 +45,10 @@ func (repo *updatePassRepo) UpdateUserPassRepo(c context.Context, id int, data *
 		passHash := repo.hasher.Hash(data.Password + salt)
 		newPassHash := repo.hasher.Hash(data.NewPassword + salt)
 
+		if passHash != user.Password {
+			return userModel.ErrorPassInvalid(nil)
+		}
+
 		if passHash == newPassHash {
 			return userModel.ErrorNewPassInvalid(nil)
 		}

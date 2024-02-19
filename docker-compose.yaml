@@ -1,0 +1,30 @@
+services:
+  cool-organic_backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    working_dir: /app
+    environment:
+#      DATABASE_HOST: host.docker.internal
+      DATABASE_HOST: db
+      DATABASE_PORT: 3306
+    depends_on:
+      - db
+  db:
+    image: bitnami/mysql:5.7
+    ports:
+      - '3307:3306'
+    volumes:
+      - cool-organic-data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "@Klov3x124n"
+      MYSQL_PASSWORD: "@Klov3x124n"
+      MYSQL_USER: "cool_organic"
+      MYSQL_DATABASE: "cool_organic"
+    expose:
+      - 3306
+volumes:
+  cool-organic-data:

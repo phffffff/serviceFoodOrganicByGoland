@@ -28,7 +28,7 @@ func (u *User) GetRole() string  { return u.Role }
 type UserPasswordUpdate struct {
 	common.SQLModel `json:",inline"`
 	Password        string `json:"password" gorm:"-"`
-	NewPassword     string `json:"new_password" gorm:"column:password;"`
+	NewPassword     string `json:"new_password" gorm:"-"`
 	ReNewPassword   string `json:"re_new_password" gorm:"-"`
 }
 
@@ -42,7 +42,6 @@ type UserRegister struct {
 	common.SQLModel `json:",inline"`
 	Email           string `json:"email" gorm:"column:email;"`
 	Password        string `json:"password" gorm:"column:password;"`
-	RePassword      string `json:"re_password" gorm:"-;"`
 	Salt            string `json:"salt" gorm:"column:salt;"`
 	Phone           string `json:"phone" gorm:"column:phone;"`
 	FbId            string `json:"fb_id,omitempty" gorm:"column:fb_id;"`
@@ -68,6 +67,11 @@ func ErrorEmailOrPasswordInvalid(err error) *common.AppError {
 func ErrorRePassInvalid(err error) *common.AppError {
 	return common.NewCustomError(err, MsgRePassInvalid, ErrRePassInvalid)
 }
+
+func ErrorPassInvalid(err error) *common.AppError {
+	return common.NewCustomError(err, ErrPassInvalid, ErrPassInvalid)
+}
+
 func ErrorNewPassInvalid(err error) *common.AppError {
 	return common.NewCustomError(err, MsgNewPassInvalid, ErrNewPassInvalid)
 }
@@ -81,6 +85,9 @@ const (
 
 	ErrEmailOrPasswordInvalid = "ErrEmailOrPasswordInvalid"
 	MsgEmailOrPasswordInvalid = "email or password invalid"
+
+	ErrPassInvalid = "ErrPassInvalid"
+	MsgPassInvalid = "pass invalid"
 
 	ErrRePassInvalid = "ErrRePassInvalid"
 	MsgRePassInvalid = "re-pass invalid"

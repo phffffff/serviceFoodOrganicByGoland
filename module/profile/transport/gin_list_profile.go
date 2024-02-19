@@ -37,7 +37,9 @@ func GinListProfile(appCtx appContext.AppContext) gin.HandlerFunc {
 
 		for i := range list {
 			list[i].Mark(false)
-			list[i].Image.Mark(false)
+			if list[i].Image != nil {
+				list[i].Image.Mark(false)
+			}
 		}
 
 		c.IndentedJSON(http.StatusOK, common.FullSuccessResponse(list, filter, paging))

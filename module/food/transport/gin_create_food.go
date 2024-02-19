@@ -28,6 +28,5 @@ func GinCreateFood(appCtx appContext.AppContext) gin.HandlerFunc {
 		}
 		data.Mark(false)
 		c.IndentedJSON(http.StatusBadRequest, common.SimpleSuccessResponse(data.FakeId.String()))
-
 	}
 }

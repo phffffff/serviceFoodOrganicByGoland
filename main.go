@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"github.com/joho/godotenv"
 	"go_service_food_organic/common"
 	appContext "go_service_food_organic/component/app_context"
 	uploadProvider "go_service_food_organic/component/upload_provider"
@@ -31,7 +33,13 @@ import (
 )
 
 func main() {
-	dsn := os.Getenv("DB_CONN")
+	_ = godotenv.Load()
+	dbName := os.Getenv("DATABASE_NAME")
+	dbHost := os.Getenv("DATABASE_HOST")
+	dbPort := os.Getenv("DATABASE_PORT")
+	dbUser := os.Getenv("DATABASE_USER")
+	dbPass := os.Getenv("DATABASE_PASS")
+	dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass, dbHost, dbPort, dbName)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {

@@ -33,9 +33,13 @@ func GinUpdateUser(appCtx appContext.AppContext) gin.HandlerFunc {
 		secretSalt := appCtx.GetSecretSaltHashImage()
 
 		hasher := hash.NewMd5Hash(secretSalt)
+
+		//
 		store := userStorage.NewSqlModel(db)
 		repo := userRepo.NewUpdatePassRepo(store, hasher, req)
+
 		biz := userBusiness.NewUpdatePassBiz(repo)
+
 		if err := biz.UpdateUserPassword(c.Request.Context(), id, &data); err != nil {
 			panic(err)
 		}

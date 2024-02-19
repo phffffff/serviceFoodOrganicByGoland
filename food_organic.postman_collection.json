@@ -1,0 +1,2618 @@
+{
+	"info": {
+		"_postman_id": "34bf1e5d-b72d-4e87-9ef3-1a14eca447c0",
+		"name": "food_organic",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "23780176"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "register",
+					"item": [
+						{
+							"name": "register",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": ""
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"user3@gmail.com\",\r\n    \"password\":\"@Klov3x124n\",\r\n    \"phone\":\"0354182079\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{LOCALHOST}}/user/register"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "authenticate",
+					"item": [
+						{
+							"name": "authenticate",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"user3@gmail.com\",\r\n    \"password\":\"@Klov3x124n\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{LOCALHOST}}/user/authenticate"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "delete",
+					"item": [
+						{
+							"name": "delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{USER_ACCESS_TOKEN}}"
+									}
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{LOCALHOST}}/user/delete/:id",
+									"host": [
+										"{{LOCALHOST}}"
+									],
+									"path": [
+										"user",
+										"delete",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "iUwqQA5kiz98"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "update-pass",
+					"item": [
+						{
+							"name": "update-pass",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{USER_ACCESS_TOKEN}}"
+									}
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"password\":\"123456\",\r\n    \"new_password\": \"@Klov3x124n\",\r\n    \"re_new_password\": \"@Klov3x124n\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCALHOST}}/user/update-pass/:id",
+									"host": [
+										"{{LOCALHOST}}"
+									],
+									"path": [
+										"user",
+										"update-pass",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3mKb6KGah2LTSU"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "profile",
+			"item": [
+				{
+					"name": "update",
+					"item": [
+						{
+							"name": "update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{USER_ACCESS_TOKEN}}"
+									}
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"phone\":\"0354182078\",\r\n    \"last_name\":\"f\",\r\n    \"first_name\":\"b\"\r\n} ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCALHOST}}/profile/update/:id",
+									"host": [
+										"{{LOCALHOST}}"
+									],
+									"path": [
+										"profile",
+										"update",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3mHP8w6PgAi8Sz"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "address",
+					"item": [
+						{
+							"name": "list",
+							"item": [
+								{
+									"name": "list",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/profile/address/list?status=1",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"profile",
+												"address",
+												"list"
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "create",
+							"item": [
+								{
+									"name": "create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"province_id\":\"DCjaDc8qacYtvfW\",\r\n    \"title\":\"Địa chỉ 3\",\r\n    \"addr\":\"123 Hai Bà Trưng, P.2, Q.1\",\r\n    \"zip_id\":700000,\r\n    \"is_default\":\"false\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{LOCALHOST}}/profile/address/create"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "update",
+							"item": [
+								{
+									"name": "update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"province_id\":\"DCjaDc8qacYtvfW\",\r\n    \"title\":\"Địa chỉ 2\",\r\n    \"addr\":\"11A Nguyễn Trung Trực, P.11, Q.11\",\r\n    \"zip_id\":700001,\r\n    \"is_default\":\"true\",\r\n    \"status\":1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCALHOST}}/profile/address/update/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"profile",
+												"address",
+												"update",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "gGzXbwVZJtdx"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "delete",
+							"item": [
+								{
+									"name": "delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/profile/address/delete/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"profile",
+												"address",
+												"delete",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "gGzXbwVZJtdx"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "new",
+					"item": [
+						{
+							"name": "list",
+							"item": [
+								{
+									"name": "list",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/profile/new/list?status=1",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"profile",
+												"new",
+												"list"
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "create",
+							"item": [
+								{
+									"name": "create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"title\": \"Dinh dưỡng rất quan trọng\",\r\n  \"content\":\"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\",\r\n  \"image\":\"hehe\",\r\n  \"tags\": [\r\n      {\"name\":\"Chất lượng\"},\r\n      {\"name\":\"bbbb\"}\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{LOCALHOST}}/profile/new/create"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "update",
+							"item": [
+								{
+									"name": "update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"title\": \"Dinh dưỡngg\",\r\n  \"content\":\"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\",\r\n  \"image\":\"h1h1\",\r\n  \"tags\": [\r\n      {\"name\":\"Chất lượng\"},\r\n      {\"name\":\"Không chất lượng\"}\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCALHOST}}/profile/new/update/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"profile",
+												"new",
+												"update",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "3mMo3p5CxWJh9n"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "delete",
+							"item": [
+								{
+									"name": "delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/profile/new/delete/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"profile",
+												"new",
+												"delete",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "3mMo3p5CxWJh9n"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "comment",
+							"item": [
+								{
+									"name": "list",
+									"item": [
+										{
+											"name": "list",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": {
+														"token": "{{USER_ACCESS_TOKEN}}"
+													}
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{LOCALHOST}}/profile/new/:new_id/comment/list",
+													"host": [
+														"{{LOCALHOST}}"
+													],
+													"path": [
+														"profile",
+														"new",
+														":new_id",
+														"comment",
+														"list"
+													],
+													"variable": [
+														{
+															"key": "new_id",
+															"value": "3mPHrivyC1kTwv"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "create",
+									"item": [
+										{
+											"name": "create",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": {
+														"token": "{{USER_ACCESS_TOKEN}}"
+													}
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"content\":\"Haha, hay quá123ádsad!!!\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{LOCALHOST}}/profile/new/:new_id/comment/create",
+													"host": [
+														"{{LOCALHOST}}"
+													],
+													"path": [
+														"profile",
+														"new",
+														":new_id",
+														"comment",
+														"create"
+													],
+													"variable": [
+														{
+															"key": "new_id",
+															"value": "3mPHrivyC1kTwv"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "update",
+									"item": [
+										{
+											"name": "update",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": {
+														"token": "{{USER_ACCESS_TOKEN}}"
+													}
+												},
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"content\":\"hông dui 12345!!!\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{LOCALHOST}}/profile/new/:new_id/comment/update/:id",
+													"host": [
+														"{{LOCALHOST}}"
+													],
+													"path": [
+														"profile",
+														"new",
+														":new_id",
+														"comment",
+														"update",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "new_id",
+															"value": "3mPHrivyC1kTwv"
+														},
+														{
+															"key": "id",
+															"value": "3pbKAHs55r1ztN"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "delete",
+									"item": [
+										{
+											"name": "delete",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": {
+														"token": "{{USER_ACCESS_TOKEN}}"
+													}
+												},
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{LOCALHOST}}/profile/new/:new_id/comment/delete/:id",
+													"host": [
+														"{{LOCALHOST}}"
+													],
+													"path": [
+														"profile",
+														"new",
+														":new_id",
+														"comment",
+														"delete",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "new_id",
+															"value": "3mPHrivyC1kTwv"
+														},
+														{
+															"key": "id",
+															"value": "3pbKAHs55r1ztN"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "food",
+					"item": [
+						{
+							"name": "list",
+							"item": [
+								{
+									"name": "listfood",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/food/listfood",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"food",
+												"listfood"
+											],
+											"query": [
+												{
+													"key": "cursor",
+													"value": "3mKb6KJ4zi7t8Q",
+													"disabled": true
+												},
+												{
+													"key": "limit",
+													"value": "3",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "create",
+							"item": [
+								{
+									"name": "create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\":\"Dâu tây TQ\",\r\n    \"description\":\"xuất xứ TQ\",\r\n    \"price\": 23000,\r\n    \"count\":2\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{LOCALHOST}}/admin/food/createfood"
+									},
+									"response": []
+								},
+								{
+									"name": "create food and info",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\":\"Dâu tây Bình Định\",\r\n    \"description\":\"xuất xứ Bình Định\",\r\n    \"price\": 100000,\r\n    \"count\":100\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/food/create-food-with-category/:categoryId",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"food",
+												"create-food-with-category",
+												":categoryId"
+											],
+											"variable": [
+												{
+													"key": "categoryId",
+													"value": "iUwum84kccaA"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "update",
+							"item": [
+								{
+									"name": "update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\":\"Ớt chuông Đạt Lạt\",\r\n    \"description\":\"Xuất xứ Đà Lạt\",\r\n    \"price\":35000,\r\n    \"count\":11,\r\n    \"brand_id\":\"e5CRtyx9roWc\",\r\n    \"status\":1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/food/updatefood/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"food",
+												"updatefood",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "3pcoy42Pf4tFBN"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "delete",
+							"item": [
+								{
+									"name": "delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/food/deletefood/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"food",
+												"deletefood",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "3pcoy42Pf4tFBN"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "profile",
+					"item": [
+						{
+							"name": "update",
+							"item": [
+								{
+									"name": "update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\":\"klov3x124n@gmail.com\",\r\n    \"phone\":\"\",\r\n    \"last_name\":\"klov3\",\r\n    \"first_name\":\"x124n\",\r\n    \"avatar_id\":\"iUwsae5ExV88\"\r\n} ",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/profile/update/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"profile",
+												"update",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "3mHP8w6PgAi8Sz"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "list",
+							"item": [
+								{
+									"name": "listProfile",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJfaWQiOjIsInJvbGUiOiJhZG1pbiJ9LCJleHAiOjE3MTA5MzQyOTEsImlhdCI6MTcwODM0MjI5MX0.AAnyiK5UAYLrpOIM52cxIJrsPZpEdP3x3dQcaPErzJU"
+											}
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/profile/list?status=1",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"profile",
+												"list"
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "delete",
+							"item": [
+								{
+									"name": "delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/user/delete/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"user",
+												"delete",
+												":id"
+											],
+											"query": [
+												{
+													"key": null,
+													"value": "",
+													"disabled": true
+												}
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "3pZ7CkvTaDuyDU"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "list",
+							"item": [
+								{
+									"name": "listUser",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "GET",
+										"header": [],
+										"url": "{{LOCALHOST}}/admin/user/list"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "update-pass",
+							"item": [
+								{
+									"name": "update-pass",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"password\":\"@Klov3x124n\",\r\n    \"new_password\": \"123456\",\r\n    \"re_new_password\": \"123456\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/user/update-pass/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"user",
+												"update-pass",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "gGzTBURqhajG"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "upload",
+					"item": [
+						{
+							"name": "image",
+							"item": [
+								{
+									"name": "upload",
+									"item": [
+										{
+											"name": "upload",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": {
+														"token": "{{USER_ACCESS_TOKEN}}"
+													}
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "formdata",
+													"formdata": [
+														{
+															"key": "file",
+															"type": "file",
+															"src": [
+																"/D:/Go/img/2.png",
+																"/D:/Go/img/tomato.jpg"
+															]
+														},
+														{
+															"key": "type",
+															"value": "category",
+															"type": "text"
+														}
+													]
+												},
+												"url": "{{LOCALHOST}}/admin/image/upload"
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "list",
+									"item": [
+										{
+											"name": "listImage",
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											},
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": {
+														"token": "{{USER_ACCESS_TOKEN}}"
+													}
+												},
+												"method": "GET",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"status\":[\r\n        0,\r\n        1,\r\n        2\r\n    ]\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": "{{LOCALHOST}}/admin/image/list"
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "delete",
+									"item": [
+										{
+											"name": "detele",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": {
+														"token": "{{USER_ACCESS_TOKEN}}"
+													}
+												},
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{LOCALHOST}}/admin/image/delete/:id",
+													"host": [
+														"{{LOCALHOST}}"
+													],
+													"path": [
+														"admin",
+														"image",
+														"delete",
+														":id"
+													],
+													"query": [
+														{
+															"key": null,
+															"value": "",
+															"disabled": true
+														}
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "3srLErXx5rLRGg"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "image food",
+							"item": [
+								{
+									"name": "create",
+									"item": [
+										{
+											"name": "create",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": {
+														"token": "{{USER_ACCESS_TOKEN}}"
+													}
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"food_id\": \"3pbKABH8abCRez\",\r\n    \"image_id\": \"gGzTFTGJB8Wk\",\r\n    \"type\":\"thumbnail\"\r\n\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": "{{LOCALHOST}}/admin/imagefood/create"
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "delete",
+									"item": [
+										{
+											"name": "delete",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": {
+														"token": "{{USER_ACCESS_TOKEN}}"
+													}
+												},
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{LOCALHOST}}/admin/imagefood/delete/:id",
+													"host": [
+														"{{LOCALHOST}}"
+													],
+													"path": [
+														"admin",
+														"imagefood",
+														"delete",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "e5352HrePro4"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "list",
+									"item": [
+										{
+											"name": "list",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": {
+														"token": "{{USER_ACCESS_TOKEN}}"
+													}
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{LOCALHOST}}/admin/imagefood/list?status=1&status=0",
+													"host": [
+														"{{LOCALHOST}}"
+													],
+													"path": [
+														"admin",
+														"imagefood",
+														"list"
+													],
+													"query": [
+														{
+															"key": "status",
+															"value": "1"
+														},
+														{
+															"key": "status",
+															"value": "0"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "order",
+					"item": [
+						{
+							"name": "list",
+							"item": [
+								{
+									"name": "list",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "GET",
+										"header": [],
+										"url": "{{LOCALHOST}}/admin/order/list"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "create",
+							"item": [
+								{
+									"name": "create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"user_id\": \"3pcoy41PDQZxv8\",\r\n    \"total_price\": 130000\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{LOCALHOST}}/admin/order/create"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "update state",
+							"item": [
+								{
+									"name": "update state",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"state\": \"shipping\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/order/update-state/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"order",
+												"update-state",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "gGzVNxrzFgmY"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "order detail",
+					"item": [
+						{
+							"name": "list",
+							"item": [
+								{
+									"name": "list",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "GET",
+										"header": [],
+										"url": "{{LOCALHOST}}/admin/orderdetail/list"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "create",
+							"item": [
+								{
+									"name": "create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"order_id\":\"3mHP8yFPUFsA4t\",\r\n    \"food_id\":\"iUwqRePSWQq4\",\r\n    \"quantity\":1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{LOCALHOST}}/admin/orderdetail/create"
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "category",
+					"item": [
+						{
+							"name": "list",
+							"item": [
+								{
+									"name": "list",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/category/list?status=1&status=0",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"category",
+												"list"
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "1"
+												},
+												{
+													"key": "status",
+													"value": "0"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "create",
+							"item": [
+								{
+									"name": "create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\":\"Rau Organic Lâm Đồng\",\r\n    \"description\":\"Xuất xứ Lâm Đồng\",\r\n    \"icon\":\"hee\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{LOCALHOST}}/admin/category/create"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "update",
+							"item": [
+								{
+									"name": "update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\":\"Rau Organic Lâm Đồngggg\",\r\n    \"description\":\"Rau Lâm Đồng\",\r\n    \"icon\":\"hoho\",\r\n    \"status\":1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/category/update/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"category",
+												"update",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "iUwum84kccaA"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "delete",
+							"item": [
+								{
+									"name": "delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/category/delete/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"category",
+												"delete",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "iUwum84kccaA"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "info food category",
+					"item": [
+						{
+							"name": "list",
+							"item": [
+								{
+									"name": "list",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/infoFoodCategory/list?status=0&status=1",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"infoFoodCategory",
+												"list"
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "0"
+												},
+												{
+													"key": "status",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "create",
+							"item": [
+								{
+									"name": "create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"food_id\":\"3mHP8w4uUmdf5t\",\r\n    \"category_id\":\"e5CRtyx9roWc\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{LOCALHOST}}/admin/infoFoodCategory/create"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "delete",
+							"item": [
+								{
+									"name": "delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/infoFoodCategory/delete/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"infoFoodCategory",
+												"delete",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "3mHP8yKNJiLhrN"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "update",
+							"item": [
+								{
+									"name": "update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"food_id\":\"3mPHhHgJn8mvM6\",\r\n    \"category_id\":\"iUwum84kccaA\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/infoFoodCategory/update/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"infoFoodCategory",
+												"update",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "3mHP8yKNJiLhrN"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "brand",
+					"item": [
+						{
+							"name": "list",
+							"item": [
+								{
+									"name": "list",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/brand/list?status=1&status=0",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"brand",
+												"list"
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "1"
+												},
+												{
+													"key": "status",
+													"value": "0"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "create",
+							"item": [
+								{
+									"name": "create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\":\"Organic Green\",\r\n    \"description\":\"Cty Organic Green\",\r\n    \"logo\":\"hee\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{LOCALHOST}}/admin/brand/create"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "update",
+							"item": [
+								{
+									"name": "update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\":\"Organic Yellow\",\r\n    \"description\":\"Cty Organic Yellow Yellow Yellow Yellow Yellow Yellow\",\r\n    \"icon\":\"haha\",\r\n    \"status\": 1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/brand/update/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"brand",
+												"update",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "gGzVRwFnQxHn"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "delete",
+							"item": [
+								{
+									"name": "delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/brand/delete/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"brand",
+												"delete",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "gGzVRwFnQxHn"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "about",
+					"item": [
+						{
+							"name": "list",
+							"item": [
+								{
+									"name": "list",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/about/list?status=1&status=0",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"about",
+												"list"
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "1"
+												},
+												{
+													"key": "status",
+													"value": "0"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "create",
+							"item": [
+								{
+									"name": "create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\":\"Giới thiệu\",\r\n    \"description\":\"Chúng tôi thành lập từ năm xxxx\",\r\n    \"logo\":\"hoho\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{LOCALHOST}}/admin/about/create"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "update",
+							"item": [
+								{
+									"name": "update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"logo\":\"HEHEHE\",\r\n    \"description\":\"234 Hai Bà Trưng, phường 23, quận 3, TP. HCM\",\r\n    \"status\":1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/about/update/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"about",
+												"update",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "e5CU6x2mtmnx"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "delete",
+							"item": [
+								{
+									"name": "delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/about/delete/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"about",
+												"delete",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "e5CU6x2mtmnx"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "address",
+					"item": [
+						{
+							"name": "list",
+							"item": [
+								{
+									"name": "list",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/address/list?status=1",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"address",
+												"list"
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "1"
+												},
+												{
+													"key": "is_default",
+													"value": "false",
+													"disabled": true
+												},
+												{
+													"key": "is_default",
+													"value": "true",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "create",
+							"item": [
+								{
+									"name": "create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"profile_id\":\"3mHP8w6PgAi8Sz\",\r\n    \"province_id\":\"DCjaDc8qacYtvfW\",\r\n    \"title\":\"Địa chỉ 2\",\r\n    \"addr\":\"248A Nguyễn Trung Trực, P.5, Q.5\",\r\n    \"zip_id\":700000,\r\n    \"is_default\":\"false\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{LOCALHOST}}/admin/address/create"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "update",
+							"item": [
+								{
+									"name": "update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"status\":1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/address/update/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"address",
+												"update",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "gGzXbwVZJtdx"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "delete",
+							"item": [
+								{
+									"name": "delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/address/delete/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"address",
+												"delete",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "gGzXbwVZJtdx"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "new",
+					"item": [
+						{
+							"name": "list",
+							"item": [
+								{
+									"name": "list",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/new/list?status=1&status=0",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"new",
+												"list"
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "1"
+												},
+												{
+													"key": "status",
+													"value": "0"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "update",
+							"item": [
+								{
+									"name": "update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"title\": \"Dinh dưỡng không quan trọng\",\r\n  \"content\":\"Loremmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm\",\r\n  \"image\":\"haha\",\r\n  \"tags\": [\r\n      {\"name\":\"Chất lượng\"},\r\n      {\"name\":\"Không chất lượng\"}\r\n    ],\r\n    \"status\":1,\r\n    \"state\":\"pending\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/new/update/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"new",
+												"update",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "3mPHrivyC1kTwv"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "delete",
+							"item": [
+								{
+									"name": "delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/profile/new/delete/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"profile",
+												"new",
+												"delete",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "3mPHrivyC1kTwv"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "comment",
+					"item": [
+						{
+							"name": "list",
+							"item": [
+								{
+									"name": "list",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/comment/list?status=1",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"comment",
+												"list"
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "delete",
+							"item": [
+								{
+									"name": "delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{USER_ACCESS_TOKEN}}"
+											}
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{LOCALHOST}}/admin/comment/delete/:id",
+											"host": [
+												"{{LOCALHOST}}"
+											],
+											"path": [
+												"admin",
+												"comment",
+												"delete",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "3pZ7NCDcjURB2Y"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "payment",
+			"item": [
+				{
+					"name": "payment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{USER_ACCESS_TOKEN}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{LOCALHOST}}/payment"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cart",
+			"item": [
+				{
+					"name": "list",
+					"item": [
+						{
+							"name": "list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{USER_ACCESS_TOKEN}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{LOCALHOST}}/cart/list"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "category",
+			"item": [
+				{
+					"name": "list",
+					"item": [
+						{
+							"name": "list",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCALHOST}}/category/list?status=0&status=1",
+									"host": [
+										"{{LOCALHOST}}"
+									],
+									"path": [
+										"category",
+										"list"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "0"
+										},
+										{
+											"key": "status",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "province",
+			"item": [
+				{
+					"name": "list",
+					"item": [
+						{
+							"name": "list",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCALHOST}}/province/list?status=0&status=1",
+									"host": [
+										"{{LOCALHOST}}"
+									],
+									"path": [
+										"province",
+										"list"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "0"
+										},
+										{
+											"key": "status",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "LOCALHOST",
+			"value": "localhost"
+		}
+	]
+}

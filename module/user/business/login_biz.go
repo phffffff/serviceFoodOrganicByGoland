@@ -42,6 +42,10 @@ func (biz *loginBiz) Login(c context.Context, data *userModel.UserLogin) (*token
 		return nil, userModel.ErrorEmailOrPasswordInvalid(err)
 	}
 
+	if user.Status != 1 {
+		return nil, common.ErrEntityDeleted(userModel.EntityName, nil)
+	}
+
 	passhash := biz.hasher.Hash(data.Password + user.Salt)
 	if passhash != user.Password {
 		return nil, userModel.ErrorEmailOrPasswordInvalid(err)
