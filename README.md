@@ -11,7 +11,8 @@ Công nghệ
   + jwt - go
   + gorm
   + godotenv
-Chức năng:
+  + ...
+- Chức năng:
   - admin
     + CRUD thực phẩm, loại thực phẩm, user, profile(user), bài viết(blog), đại chỉ(user), bình luận, thương hiệu, image(thực phẩm/loại thực phẩm/user), giới thiệu
     + Bán hàng
